@@ -55,7 +55,7 @@ cap = {
         (e.ABS_X, AbsInfo(value=minxpos, min=maxxpos, max=0, fuzz=0, flat=0, resolution=0)),
         (e.ABS_Y, AbsInfo(value=minypos, min=maxypos, max=0, fuzz=0, flat=0, resolution=0))]
 }
-ui = UInput(cap, name='boogie-board-sync-pen')
+# ui = UInput(cap, name='boogie-board-sync-pen')
 
 try:
     while True:
@@ -85,12 +85,12 @@ try:
         pressure = data[5] | data[6] << 8
         touch = data[7] & 0x01
         stylus = (data[7] & 0x02)>>1
-        ui.write(e.EV_ABS, e.ABS_PRESSURE, pressure)
-        ui.write(e.EV_ABS, e.ABS_X, xpos)
-        ui.write(e.EV_ABS, e.ABS_Y, ypos)
-        ui.write(e.EV_KEY,e.BTN_TOUCH,touch)
-        ui.write(e.EV_KEY,e.BTN_STYLUS2,stylus)
-        ui.syn()
+        # ui.write(e.EV_ABS, e.ABS_PRESSURE, pressure)
+        # ui.write(e.EV_ABS, e.ABS_X, xpos)
+        # ui.write(e.EV_ABS, e.ABS_Y, ypos)
+        # ui.write(e.EV_KEY,e.BTN_TOUCH,touch)
+        # ui.write(e.EV_KEY,e.BTN_STYLUS2,stylus)
+        # ui.syn()
         print('xpos: %5d ypos: %5d pressure: %3d' % (xpos, ypos, pressure))
         # print('touch: %d stylus %d' % (touch, stylus))
 except KeyboardInterrupt:
