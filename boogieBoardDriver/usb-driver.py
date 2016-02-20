@@ -104,7 +104,7 @@ main_image = Image.open("../assets/mainmenu.jpg")
 dick_butt_right_image = Image.open("../assets/dickbuttright.jpg")
 dick_butt_left_image = Image.open("../assets/dickbuttleft.jpg")
 
-image_array = [main_image, dickbuttright, dickbuttleft]
+image_array = [main_image, dick_butt_right_image, dick_butt_left_image]
 num_images = len(image_array)
 image_count = 0
 
@@ -151,15 +151,15 @@ while True:
     #main menu state
     elif state == MAIN_MENU:
       matrix.Clear()
-      image_array[image_count].load()          
-      matrix.SetImage(image.im.id, 0, 0)
+      main_image.load() #image_array[image_count].load()          
+      matrix.SetImage(main_image.im.id, 0, 0) #image_array[image_count].im.id, 0, 0)
       if touch:
         draw_touch(counter, xpos, ypos, stylus)
         counter = (counter + 1) % 8
         # scroll to select
-        if xpos > 16 && stylus:
+        if xpos > 16 and stylus:
           image_count = (image_count + 1) % num_images
-        elif xpos < 16 && stylus
+        elif xpos < 16 and stylus:
           image_count = (image_count - 1) % num_images
 
 
