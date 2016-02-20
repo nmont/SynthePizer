@@ -15,7 +15,7 @@ matrix = Adafruit_RGBmatrix(32, 1)
 
 def draw_touch(x, y, radius):
        
-        for i in range(100):
+        for i in range(4):
                 set_point(x-1, y-1)
                 set_point(x-1, y+1)
                 set_point(x+1, y-1)
@@ -42,7 +42,7 @@ def set_point(x, y):
           2 * 0b00010001)
 
 
-for x in range(0,12):
+for x in range(1,12):
 
         draw_touch(x, 10, 10)
         matrix.Clear()
