@@ -45,5 +45,5 @@ while True:
   for i in range(5):
     draw_touch(counter, randint(0, 31), randint(0, 31))
     counter += 1
-    time.sleep(.075)
+    time.sleep(.5)
     matrix.Clear()
