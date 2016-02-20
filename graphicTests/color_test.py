@@ -11,8 +11,6 @@ from rgbmatrix import Adafruit_RGBmatrix
 # Rows and chain length are both required parameters:
 matrix = Adafruit_RGBmatrix(32, 1)
 
-
-
 def draw_touch(x, y, radius):
   r1 = 0b11111111
   r2 = 0
@@ -37,17 +35,14 @@ def draw_touch(x, y, radius):
     matrix.Clear()
 	
 def set_point(x, y, r, b):
-
-        matrix.SetPixel(
-          x,
-          y,
-          r,
-          (2 * 0b001001001) / 2,
-          b)
+  matrix.SetPixel(
+    x,
+    y,
+    r,
+    (2 * 0b001001001) / 2,
+    b)
 
 
 for x in range(1:12):
-
-        draw_touch(x, 10, 10)
-        matrix.Clear()
-
+  draw_touch(x, 10, 10)
+  matrix.Clear()
