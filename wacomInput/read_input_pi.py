@@ -4,6 +4,8 @@
 
 
 import os
+import math
+from rgbmatrix import Adafruit_RGBmatrix
 from subprocess import Popen
 
 _read, _write = os.pipe()
@@ -23,6 +25,8 @@ write_fd = os.fdopen(_write, 'w', 0)
 proc = Popen(['xinput', 'test', 'Wacom Intuos PT S Pen'], stdout = write_fd)
 
 os.close(_write)
+
+matrix = Adafruit_RGBmatrix(32, 1)
 
 # when using os.read() there is no readline method
 # i made a generator
@@ -45,12 +49,25 @@ for each in readline:
                 if not split_line[0] == "button":
                         raw_x = split_line[1].split("=")[1]
                         raw_y = split_line[2].split("=")[1]
-                        fraw_x = float(raw_x)
-                        fraw_y = float(raw_y)
+                        fraw_x = math.floor(float(raw_x) / 296.875)
+                        fraw_y = math.floor(float(raw_y) / 296.875)
+
                         if (len(split_line) >= 5): 
                                 raw_pressure = split_line[3].split("=")[1]
-                                fraw_pressure = float(raw_pressure)
-                                print ("X = " + str((fraw_x / 296.875)) + ", Y = " + str((fraw_y / 296.875)) + ", pressure = " + str(fraw_pressure / 1024))
+                                fraw_pressure = math.floor(float(raw_pressure) / 1024)
+                                matrix.SetPixel(
+                                  int(fraw_x),
+                                  int(fraw_y),
+                                  (2 * 0b001001001) / 2,
+                                  (2 * 0b001001001) / 2,
+                                   2 * 0b00010001)
+                                # print ("X = " + str((fraw_x / 296.875)) + ", Y = " + str((fraw_y / 296.875)) + ", pressure = " + str(fraw_pressure / 1024))
                         else:
-                                print ("X = " + str((fraw_x / 296.875)) + ", Y = " + str((fraw_y / 296.875)))
+                                matrix.SetPixel(
+                                  int(fraw_x),
+                                  int(fraw_y),
+                                  (2 * 0b001001001) / 2,
+                                  (2 * 0b001001001) / 2,
+                                   2 * 0b00010001)
+                                # print ("X = " + str((fraw_x / 296.875)) + ", Y = " + str((fraw_y / 296.875)))
                                 
