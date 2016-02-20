@@ -52,7 +52,7 @@ def draw_touch(counter, x, y, stylusButtonDown):
 # ============== MAIN ==========================
 
 matrix = Adafruit_RGBmatrix(32, 1)
-#signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGINT, signal_handler)
 
 # find our device
 dev = usb.core.find(idVendor=0x2914, idProduct=0x0100)
@@ -100,64 +100,58 @@ MAIN_MENU = "MAIN_MENU"
 DRAW = "DRAW"
 state = MAIN_MENU
 
-try:
-    while True:
-        try:
-          #bring in data from the boogie board
-            data = ep.read(8, 100)
-        except usb.USBError as err:
-            if err.args != (110, 'Operation timed out'):
-                raise err
-            continue
+while True:
+    try:
+      #bring in data from the boogie board
+        data = ep.read(8, 100)
+    except usb.USBError as err:
+        if err.args != (110, 'Operation timed out'):
+            raise err
+        continue
 
-        xpos = data[1] | data[2] << 8
-        ypos = data[3] | data[4] << 8
+    xpos = data[1] | data[2] << 8
+    ypos = data[3] | data[4] << 8
 
-        if xpos < minxpos:
-            minxpos = xpos
-            print('updated minxpos to %d' % minxpos)
-        if xpos > maxxpos:
-            maxxpos = xpos
-            print('updated maxxpos to %d' % maxxpos)
-        if ypos < minypos:
-            minypos = ypos
-            print('updated minypos to %d' % minypos)
-        if ypos > maxypos:
-            maxypos = ypos
-            print('updated maxypos to %d' % maxypos)
+    if xpos < minxpos:
+        minxpos = xpos
+        print('updated minxpos to %d' % minxpos)
+    if xpos > maxxpos:
+        maxxpos = xpos
+        print('updated maxxpos to %d' % maxxpos)
+    if ypos < minypos:
+        minypos = ypos
+        print('updated minypos to %d' % minypos)
+    if ypos > maxypos:
+        maxypos = ypos
+        print('updated maxypos to %d' % maxypos)
 
-        pressure = data[5] | data[6] << 8
-        touch = data[7] & 0x01
-        stylus = (data[7] & 0x02)>>1
-        
-        xpos = int(floor(xpos / (maxypos / 32)))
-        ypos = int(floor(ypos / (maxypos / 32)))
-        
-        # determine state
+    pressure = data[5] | data[6] << 8
+    touch = data[7] & 0x01
+    stylus = (data[7] & 0x02)>>1
+    
+    xpos = int(floor(xpos / (maxypos / 32)))
+    ypos = int(floor(ypos / (maxypos / 32)))
+    
+    # determine state
 
-        # draw state
-        if state == DRAW:
-          draw_touch(counter, xpos, ypos, stylus)
-          counter = (counter + 1) % 8
+    # draw state
+    if state == DRAW:
+      draw_touch(counter, xpos, ypos, stylus)
+      counter = (counter + 1) % 8
+      matrix.Clear()
+      
+    #main menu state
+    elif state == MAIN_MENU:
+      image = Image.new("1", (32,32))
+      draw = ImageDraw.Draw(image)
+      #draw the text
+      draw.text((32, 10), "Draw on my board!", fill = 1)
+      #scroll it across the board
+      while True:
+        for n in range(0, 100):
           matrix.Clear()
-          
-        #main menu state
-        elif state == MAIN_MENU:
-          image = Image.new("1", (32,32))
-          draw = ImageDraw.Draw(image)
-          #draw the text
-          draw.text((32, 10), "Draw on my board!", fill = 1)
-          #scroll it across the board
-          while True:
-            for n in range(0, 100):
-              matrix.Clear()
-              matrix.SetImage(image.im.id, 32-n, 10)
-              time.sleep(0.05)
-
-
-
-except KeyboardInterrupt:
-    pass
+          matrix.SetImage(image.im.id, 32-n, 10)
+          time.sleep(0.05)
 
 usb.util.release_interface(dev, 0)
 usb.util.release_interface(dev, 1)
