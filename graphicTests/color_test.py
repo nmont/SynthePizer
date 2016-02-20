@@ -41,8 +41,8 @@ def set_point(x, y, r, b):
 counter = 0
 
 while True:
-  for x in range(1,31):
-    for i in range(50):
+  for x in range(0,31):
+    for i in range(5):
       draw_touch(counter, x, 10)
       counter += 1
       time.sleep(.075)
