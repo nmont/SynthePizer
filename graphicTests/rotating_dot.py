@@ -14,12 +14,21 @@ matrix = Adafruit_RGBmatrix(32, 1)
 
 
 def draw_touch(x, y, radius):
+       
+        for i in range(100):
+                set_point(x-1, y-1)
+                set_point(x-1, y+1)
+                set_point(x+1, y-1)
+                set_point(x+1, y+1)
         
-        set_point(x-1, y-1)
-        set_point(x-1, y+1)
-        set_point(x+1, y-1)
-        set_point(x+1, y+1)
-        time.sleep(3)
+                time.sleep(.1)
+                
+                set_point(x-1, y)
+                set_point(x, y+1)
+                set_point(x+1, y)
+                set_point(x, y-1)
+                
+                time.sleep(.1)
 	
 def set_point(x, y):
 
