@@ -2,7 +2,7 @@
 
 from pyaudio import PyAudio, paContinue, paFloat32
 from time import sleep
-from numpy import array, random, arange, float32, float64, zeros, fromstring
+from numpy import array, random, arange, float32, float64, zeros, fromstring, vectorize
 import matplotlib.pyplot as plt
 import wave
 
@@ -51,9 +51,9 @@ class Limiter:
 
 ################################# Play the Audio ###############################
 
-wf = wave.open('didgi-7.wav', 'r')
-signal = wf.readframes(-1)
-signal = fromstring(signal, 'Int16')
+wf = wave.open('didgi-7.wav', 'rb')
+# signal = wf.readframes(-1)
+# signal = fromstring(signal, 'Int16')
 
 # signal = array(random.rand(fs*signal_length)*2-1, dtype=dtype)
 # signal[:signal_length*fs/3] *= 0.1
@@ -61,6 +61,8 @@ signal = fromstring(signal, 'Int16')
 
 limiter = Limiter(attack_coeff, release_coeff, delay, dtype)
 
+# Callback that plays the wav file and limits the output
+# This doesn't really work yet
 def callback(in_data, frame_count, time_info, flag):
     if flag:
         print("Playback Error: %i" % flag)
@@ -73,34 +75,40 @@ callback.counter = 0
 
 pa = PyAudio()
 
-# stream = pa.open(format = paFloat32,
-#                  channels = 1,
-#                  rate = fs,
-#                  frames_per_buffer = block_length,
-#                  output = True,
-#                  stream_callback = callback)
+# Plays the wave file wf onece
+def playonce(in_data, frame_count, time_info, status):
+    if status:
+        print("Playback Error: %i" % status)
+    data = wf.readframes(frame_count)
+    return (data, paContinue)
+
+# Loops the wave file wf
+def loopaudio(in_data, frame_count, time_info, status):
+    if status:
+        print("Playback Error: %i" % status)
+    swidth = wf.getsampwidth()
+    data = wf.readframes(frame_count)
+    raw = fromstring(data, dtype=float32)
+    print(raw)
+    # gainlvl = vectorize(lambda x: x * 0.2)
+    # raw = gainlvl(raw)
+    data = raw.astype(float32).tostring()
+    if len(data) < 2048 * swidth : # If file is over then rewind.
+        wf.rewind()
+        data = wf.readframes(frame_count)
+    return (data, paContinue)
+
 stream = pa.open(
     format = pa.get_format_from_width(wf.getsampwidth()),
     channels = wf.getnchannels(),
     rate = wf.getframerate(),
-    frames_per_buffer = block_length,
     output = True,
-    stream_callback = callback)
+    stream_callback = loopaudio)
+
+stream.start_stream()
 
 while stream.is_active():
-    sleep(0.1)
-
-plt.figure()
-# plt.plot(original_signal, color='grey', label='original signal')
-plt.plot(signal, color='black', label='limited signal')
-plt.legend()
-plt.show(block=True)
-# while True:
-#     stream.write(signal)
-#     signal = wf.readframes(block_length)
-#     if signal == '' : # If file is over then rewind.
-#         wf.rewind()
-#         signal = wf.readframes(block_length)
+    sleep(0.01)
 
 stream.close()
 pa.terminate()
