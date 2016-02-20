@@ -14,5 +14,6 @@ matrix = Adafruit_RGBmatrix(32,1)
 image = Image.open("../assets/mainmenu.jpg")
 image.load()          # Must do this before SetImage() calls
 matrix.SetImage(image.im.id, 0, 0)
+time.wait(10)
 
 matrix.Clear()
