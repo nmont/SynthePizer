@@ -20,6 +20,7 @@ class Audio:
             rate = self.wf.getframerate(),
             output = True
         )
+        print(self.wf.getframerate())
         self.data = self.wf.readframes(self.CHUNK)
 
     def play(self,loop=True):
