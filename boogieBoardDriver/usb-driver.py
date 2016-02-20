@@ -3,6 +3,8 @@
 import usb.core
 import usb.util
 import sys
+import Image
+import ImageDraw
 from evdev import UInput, AbsInfo, ecodes as e
 from time import sleep
 from numpy import floor
@@ -90,9 +92,15 @@ maxpressure = 255
 
 counter = 0
 
+#state variables
+MAIN_MENU = "MAIN_MENU"
+DRAW = "DRAW"
+state = DRAW
+
 try:
     while True:
         try:
+          #bring in data from the boogie board
             data = ep.read(8, 100)
         except usb.USBError as err:
             if err.args != (110, 'Operation timed out'):
@@ -122,12 +130,28 @@ try:
         xpos = int(floor(xpos / (maxypos / 32)))
         ypos = int(floor(ypos / (maxypos / 32)))
         
-        #print('xpos: %5d ypos: %5d pressure: %3d' % (xpos, ypos, pressure))
-        draw_touch(counter, xpos, ypos, stylus)
-        counter = (counter + 1) % 8
-        # sleep(5)
-        matrix.Clear()
-        # print('touch: %d stylus %d' % (touch, stylus))
+        # determine state
+
+        # draw state
+        if state == DRAW:
+          draw_touch(counter, xpos, ypos, stylus)
+          counter = (counter + 1) % 8
+          matrix.Clear()
+          
+        #main menu state
+        elif state == MAIN_MENU:
+          image = Image.new("1", (32,32))
+          #draw the text
+          draw.text((32, 10), "Draw on my board!", fill = 1)
+          #scroll it across the board
+          while true:
+            for n in range(0, 100)
+              matrix.clear()
+              matrix.SetImage(image.im.id, 32-n, 10)
+              time.sleep(0.05)
+
+
+
 except KeyboardInterrupt:
     pass
 
