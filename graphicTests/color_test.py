@@ -18,7 +18,7 @@ def draw_touch(x, y, radius):
   b1 = 0b11111111
   b2 = 0
 
-  tup1 = (x-1, x, x+1, x+1, x+1, x+1, x, x-1)
+  tup1 = (x-1, x, x+1, x+1, x+1, x, x-1, x-1)
   tup2 = (y-1, y-1, y-1, y, y+1, y+1, y+1, y)
   counter = 0
   for i in range(100):
