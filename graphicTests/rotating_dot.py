@@ -31,7 +31,7 @@ def set_point(x, y):
           2 * 0b00010001)
 
 
-for x in range(12)
+for x in range(12):
 
         draw_touch(x, 10, 10)
         time.sleep(2.0)
