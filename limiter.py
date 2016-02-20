@@ -3,7 +3,6 @@
 from pyaudio import PyAudio, paContinue, paFloat32
 from time import sleep
 from numpy import array, random, arange, float32, float64, zeros, fromstring, vectorize
-import matplotlib.pyplot as plt
 import wave
 
 ################################### Constants ##################################
