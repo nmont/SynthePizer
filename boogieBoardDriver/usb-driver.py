@@ -151,7 +151,7 @@ while True:
     #main menu state
     elif state == MAIN_MENU:
       matrix.Clear()
-      image_array[image_count].load()          # Must do this before SetImage() calls
+      image_array[image_count].load()          
       matrix.SetImage(image.im.id, 0, 0)
       if touch:
         draw_touch(counter, xpos, ypos, stylus)
