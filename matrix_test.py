@@ -18,7 +18,7 @@ for i in range(0,31):
 	SetPixel(i, 16, 255, 255, 255)
 	if i > 0: 
 		SetPixel(i-1, 16, 200, 200, 200)
-	if i > 1
+	if i > 1:
 		SetPixel(i-2, 16, 100, 100, 100)
 	time.sleep(0.1)
 	matrix.clear()
