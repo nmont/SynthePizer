@@ -100,6 +100,14 @@ MAIN_MENU = "MAIN_MENU"
 DRAW = "DRAW"
 state = DRAW
 
+main_image = Image.open("../assets/mainmenu.jpg")
+dick_butt_right_image = Image.open("../assets/dickbuttright.jpg")
+dick_butt_left_image = Image.open("../assets/dickbuttleft.jpg")
+
+image_array = [main_image, dickbuttright, dickbuttleft]
+num_images = len(image_array)
+image_count = 0
+
 while True:
     try:
       #bring in data from the boogie board
@@ -142,10 +150,23 @@ while True:
       
     #main menu state
     elif state == MAIN_MENU:
-      image = Image.open("../assets/mainmenu.jpg")
-      image.load()          # Must do this before SetImage() calls
+      matrix.Clear()
+      image_array[image_count].load()          # Must do this before SetImage() calls
       matrix.SetImage(image.im.id, 0, 0)
-      time.wait(10)
+      if touch:
+        draw_touch(counter, xpos, ypos, stylus)
+        counter = (counter + 1) % 8
+        # scroll to select
+        if xpos > 16 && stylus:
+          image_count = (image_count + 1) % num_images
+        elif xpos < 16 && stylus
+          image_count = (image_count - 1) % num_images
+
+
+
+
+
+    sleep(0.05)
 
 usb.util.release_interface(dev, 0)
 usb.util.release_interface(dev, 1)
