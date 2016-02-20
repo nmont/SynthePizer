@@ -5,6 +5,7 @@ import usb.util
 import sys
 import Image
 import ImageDraw
+from test_audio import Audio
 from evdev import UInput, AbsInfo, ecodes as e
 from time import sleep
 from numpy import floor
@@ -45,6 +46,8 @@ def draw_touch(counter, x, y, stylusButtonDown):
   matrix.SetPixel(tup1[(counter + 6) % 8], tup2[(counter + 6) % 8], r2, 0, b1)
   matrix.SetPixel(tup1[(counter + 7) % 8], tup2[(counter + 7) % 8], r2, 0, b1)
   sleep(0.05)
+  a = Audio("didgi-7.wav")
+  a.play(True)
 
 # ============== MAIN ==========================
 
