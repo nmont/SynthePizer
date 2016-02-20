@@ -21,7 +21,7 @@ for i in range(0,31):
 	if i > 1:
 		matrix.SetPixel(i-2, 16, 100, 100, 100)
 	time.sleep(0.1)
-	matrix.clear()
+	matrix.Clear()
 
 time.sleep(10.0)
 matrix.Clear()
