@@ -31,7 +31,7 @@ def draw_touch(x, y, radius):
     set_point(tup1[(counter + 6) % 8], tup2[(counter + 6) % 8], r2, b1)
     set_point(tup1[(counter + 7) % 8], tup2[(counter + 7) % 8], r2, b1)
 
-    time.sleep(5)
+    time.sleep(.5)
     matrix.Clear()
     counter++
 
