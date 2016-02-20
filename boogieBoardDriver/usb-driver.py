@@ -5,6 +5,37 @@ import usb.util
 import sys
 from evdev import UInput, AbsInfo, ecodes as e
 import time
+from rgbmatrix import Adafruit_RGBmatrix
+
+def draw_touch(counter, x, y):
+  r1 = 0b11111111
+  r2 = 0
+  g = 0
+  b1 = 0b11111111
+  b2 = 0
+
+  tup1 = (x-1, x, x+1, x+1, x+1, x, x-1, x-1)
+  tup2 = (y-1, y-1, y-1, y, y+1, y+1, y+1, y)
+  set_point(tup1[counter % 8], tup2[counter % 8], r1, b2)
+  set_point(tup1[(counter + 1)], tup2[(counter + 1)], r1, b2)
+  set_point(tup1[(counter + 2)], tup2[(counter + 2)], r1, b2)
+  set_point(tup1[(counter + 3)], tup2[(counter + 3)], r1, b2)
+  set_point(tup1[(counter + 4)], tup2[(counter + 4)], r2, b1)
+  set_point(tup1[(counter + 5)], tup2[(counter + 5)], r2, b1)
+  set_point(tup1[(counter + 6)], tup2[(counter + 6)], r2, b1)
+  set_point(tup1[(counter + 7)], tup2[(counter + 7)], r2, b1)
+
+
+def set_point(x, y, r, b):
+  matrix.SetPixel(
+    x,
+    y,
+    r,
+    (2 * 0b001001001) / 2,
+    b)
+
+
+matrix = Adafruit_RGBmatrix(32, 1)
 
 # find our device
 dev = usb.core.find(idVendor=0x2914, idProduct=0x0100)
@@ -57,6 +88,8 @@ cap = {
 }
 # ui = UInput(cap, name='boogie-board-sync-pen')
 
+counter = 0
+
 try:
     while True:
         try:
@@ -85,13 +118,21 @@ try:
         pressure = data[5] | data[6] << 8
         touch = data[7] & 0x01
         stylus = (data[7] & 0x02)>>1
+        
+        xpos = math.floor(xpos / (maxypos / 32))
+        ypos = math.floor(ypos / (maxypos / 32))
+        
         # ui.write(e.EV_ABS, e.ABS_PRESSURE, pressure)
         # ui.write(e.EV_ABS, e.ABS_X, xpos)
         # ui.write(e.EV_ABS, e.ABS_Y, ypos)
         # ui.write(e.EV_KEY,e.BTN_TOUCH,touch)
         # ui.write(e.EV_KEY,e.BTN_STYLUS2,stylus)
         # ui.syn()
-        print('xpos: %5d ypos: %5d pressure: %3d' % (xpos, ypos, pressure))
+        #print('xpos: %5d ypos: %5d pressure: %3d' % (xpos, ypos, pressure))
+        draw_touch(counter, xpos, ypos)
+        counter = (counter + 1) % 8
+        time.sleep(.5)
+        matrix.Clear()
         # print('touch: %d stylus %d' % (touch, stylus))
 except KeyboardInterrupt:
     pass
