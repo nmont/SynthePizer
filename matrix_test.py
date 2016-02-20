@@ -5,7 +5,7 @@
 # refresh operation needed.
 # Requires rgbmatrix.so present in the same directory.
 
-import time
+import time, Image, ImageDraw
 from rgbmatrix import Adafruit_RGBmatrix
 
 # Rows and chain length are both required parameters:
@@ -15,13 +15,9 @@ matrix = Adafruit_RGBmatrix(32, 1)
 
 # Show RGB test pattern (separate R, G, B color values)
 for i in range(0,31):
-	matrix.SetPixel(i, 16, 255, 255, 255)
-	if i > 0: 
-		matrix.SetPixel(i-1, 16, 200, 200, 200)
-	if i > 1:
-		matrix.SetPixel(i-2, 16, 100, 100, 100)
-	time.sleep(0.1)
-	matrix.Clear()
+	draw.text((i, 16), "hey", fill=1)
+
+
 
 time.sleep(10.0)
 matrix.Clear()
