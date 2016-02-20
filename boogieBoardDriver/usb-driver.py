@@ -17,16 +17,17 @@ def draw_touch(counter, x, y):
 
   tup1 = (x-1, x, x+1, x+1, x+1, x, x-1, x-1)
   tup2 = (y-1, y-1, y-1, y, y+1, y+1, y+1, y)
-  set_point(x, y, r1, b2)
-  #set_point(tup1[counter % 8], tup2[counter % 8], r1, b2)
-  #set_point(tup1[(counter + 1)], tup2[(counter + 1)], r1, b2)
-  #set_point(tup1[(counter + 2)], tup2[(counter + 2)], r1, b2)
-  #set_point(tup1[(counter + 3)], tup2[(counter + 3)], r1, b2)
-  #set_point(tup1[(counter + 4)], tup2[(counter + 4)], r2, b1)
-  #set_point(tup1[(counter + 5)], tup2[(counter + 5)], r2, b1)
-  #set_point(tup1[(counter + 6)], tup2[(counter + 6)], r2, b1)
-  #set_point(tup1[(counter + 7)], tup2[(counter + 7)], r2, b1)
+  #set_point(x, y, r1, b2)
+  set_point(tup1[counter], tup2[counter], r1, b2)
+  set_point(tup1[(counter + 1) % 8], tup2[(counter + 1) % 8], r1, b2)
+  set_point(tup1[(counter + 2) % 8], tup2[(counter + 2) % 8], r1, b2)
+  set_point(tup1[(counter + 3) % 8], tup2[(counter + 3) % 8], r1, b2)
+  set_point(tup1[(counter + 4) % 8], tup2[(counter + 4) % 8], r2, b1)
+  set_point(tup1[(counter + 5) % 8], tup2[(counter + 5) % 8], r2, b1)
+  set_point(tup1[(counter + 6) % 8], tup2[(counter + 6) % 8], r2, b1)
+  set_point(tup1[(counter + 7) % 8], tup2[(counter + 7) % 8], r2, b1)
   #print("Here\n")
+  sleep(0.05)
 
 
 def set_point(x, y, r, b):
@@ -36,7 +37,6 @@ def set_point(x, y, r, b):
     r,
     (2 * 0b001001001) / 2,
     b)
-  sleep(0.05)
 
 
 matrix = Adafruit_RGBmatrix(32, 1)
