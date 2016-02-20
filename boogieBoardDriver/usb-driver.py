@@ -24,7 +24,6 @@ def draw_touch(counter, x, y, stylusButtonDown):
     set_point(x, y, 255, 255, 255)
 
   # cursor ring
-  set_point(tup1[counter], tup2[counter], r1, b2)
   set_point(tup1[(counter + 1) % 8], tup2[(counter + 1) % 8], r1, 0, b2)
   set_point(tup1[(counter + 2) % 8], tup2[(counter + 2) % 8], r1, 0, b2)
   set_point(tup1[(counter + 3) % 8], tup2[(counter + 3) % 8], r1, 0, b2)
