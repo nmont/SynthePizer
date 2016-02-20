@@ -145,7 +145,7 @@ try:
           draw.text((32, 10), "Draw on my board!", fill = 1)
           #scroll it across the board
           while true:
-            for n in range(0, 100)
+            for n in range(0, 100):
               matrix.clear()
               matrix.SetImage(image.im.id, 32-n, 10)
               time.sleep(0.05)
