@@ -145,6 +145,13 @@ while True:
     # determine state
     # main menu state
     if state = MAIN_MENU:
+      matrix.Clear()
+      main_image.load()
+      if touch:
+        draw_touch(counter, xpos, ypos, stylus)
+        if stylus:
+          state = SELECT_INSTRUMENT
+
     # draw state
     if state == DRAW:
       draw_touch(counter, xpos, ypos, stylus)
