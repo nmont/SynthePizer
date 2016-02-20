@@ -43,7 +43,7 @@ counter = 0
 while True:
   for x in range(1,31):
     for i in range(50):
-    draw_touch(counter, 10, 10)
-    counter += 1
-    time.sleep(.075)
-    matrix.Clear()
+      draw_touch(counter, 10, 10)
+      counter += 1
+      time.sleep(.075)
+      matrix.Clear()
