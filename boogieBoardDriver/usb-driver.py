@@ -149,7 +149,7 @@ try:
             for n in range(0, 100):
               matrix.Clear()
               matrix.SetImage(image.im.id, 32-n, 10)
-              time.sleep(0.05)
+              sleep(0.05)
 
 
 
