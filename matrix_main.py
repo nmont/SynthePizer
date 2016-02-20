@@ -1,40 +1,26 @@
 #!/usr/bin/python
-
+ 
+# Simple RGBMatrix example, using only Clear(), Fill() and SetPixel().
+# These functions have an immediate effect on the display; no special
+# refresh operation needed.
+# Requires rgbmatrix.so present in the same directory.
+ 
 import time
 from rgbmatrix import Adafruit_RGBmatrix
-
+ 
+# Rows and chain length are both required parameters:
 matrix = Adafruit_RGBmatrix(32, 1)
-xCoord = ''
-yCoord = ''
-pressureValue = ''
-shouldLightUpRight = false
-shouldLightUpLeft = false
+ 
+# Flash screen red, green, blue (packed color values)
+for x in range(32):
+	for y in range(32):
+		matrix.SetPixel(
+		  x,
+		  y,
+		  (2 * 0b001001001) / 2,
+		  (2 * 0b001001001) / 2,
+		   2 * 0b00010001)
+		time.sleep(0.2)
 
-
-def parseX(x):
-	if (x > 41.6):
-		xCoord = 32
-		shouldLightUpRight = True
-	elif (x < 9.6):
-		xCoord = -32
-		shouldLightUpLeft = True
-	else:
-		xCoord = int(x)
-
-def parseTouch(x, y, pressure):
-	parseX(x)
-	yCoord = int(y)
-
-def lightUpRight(x, y):
-	for yPixel in range(32):
-		matrix.SetPixel(x, yPixel, 1, 0, 0)
-	matrix.SetPixel(x - 1, y, 1, 0, 0)
-
-parseTouch(50, 12)
-
-if (shouldLightUpRight):
-	lightUpRight(xCoord, yCoord)
-
-time.sleep(3.0)
-
+time.sleep(10.0)
 matrix.Clear()
