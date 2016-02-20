@@ -19,36 +19,40 @@ def draw_touch(x, y, radius):
   b2 = 0
   for i in range(100):
     set_point(x-1, y-1, r1, b2)
-    set_point(x-1, y+1, r1, b2)
-    set_point(x+1, y-1, r2, b1)
-    set_point(x+1, y+1, r2, b1)
-
-    time.sleep(.075)
-    matrix.Clear()
-
-    set_point(x-1, y, r1, b2)
-    set_point(x, y+1, r1, b2)
-    set_point(x+1, y, r2, b1)
-    set_point(x, y-1, r2, b1)
-
-    time.sleep(.075)
-    matrix.Clear()
-	
-    set_point(x-1, y-1, r2, b1)
-    set_point(x-1, y+1, r2, b1)
-    set_point(x+1, y-1, r1, b2)
-    set_point(x+1, y+1, r1, b2)
-
-    time.sleep(.075)
-    matrix.Clear()
-
-    set_point(x-1, y, r2, b1)
-    set_point(x, y+1, r2, b1)
-    set_point(x+1, y, r1, b2)
     set_point(x, y-1, r1, b2)
+    set_point(x+1, y-1, r1, b2)
+    set_point(x+1, y, r1, b2)
+    set_point(x+1, y+1, r1, b2)
+    set_point(x, y+1, r2, b1)
+    set_point(x-1, y+1, r2, b1)
+    set_point(x-1, y, r2, b1)
 
-    time.sleep(.075)
+    time.sleep(5)
     matrix.Clear()
+
+    # set_point(x-1, y, r1, b2)
+    # set_point(x, y+1, r1, b2)
+    # set_point(x+1, y, r2, b1)
+    # set_point(x, y-1, r2, b1)
+
+    # time.sleep(.075)
+    # matrix.Clear()
+	
+    # set_point(x-1, y-1, r2, b1)
+    # set_point(x-1, y+1, r2, b1)
+    # set_point(x+1, y-1, r1, b2)
+    # set_point(x+1, y+1, r1, b2)
+
+    # time.sleep(.075)
+    # matrix.Clear()
+
+    # set_point(x-1, y, r2, b1)
+    # set_point(x, y+1, r2, b1)
+    # set_point(x+1, y, r1, b2)
+    # set_point(x, y-1, r1, b2)
+
+    # time.sleep(.075)
+    # matrix.Clear()
 def set_point(x, y, r, b):
   matrix.SetPixel(
     x,
