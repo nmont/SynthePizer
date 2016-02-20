@@ -22,7 +22,7 @@ def draw_touch(x, y, radius):
     set_point(x, y-1, r1, b2)
     set_point(x+1, y-1, r1, b2)
     set_point(x+1, y, r1, b2)
-    set_point(x+1, y+1, r1, b2)
+    set_point(x+1, y+1, r2, b1)
     set_point(x, y+1, r2, b1)
     set_point(x-1, y+1, r2, b1)
     set_point(x-1, y, r2, b1)
