@@ -95,7 +95,7 @@ counter = 0
 #state variables
 MAIN_MENU = "MAIN_MENU"
 DRAW = "DRAW"
-state = DRAW
+state = MAIN_MENU
 
 try:
     while True:
@@ -141,12 +141,13 @@ try:
         #main menu state
         elif state == MAIN_MENU:
           image = Image.new("1", (32,32))
+          draw = ImageDraw.Draw(image)
           #draw the text
           draw.text((32, 10), "Draw on my board!", fill = 1)
           #scroll it across the board
-          while true:
+          while True:
             for n in range(0, 100):
-              matrix.clear()
+              matrix.Clear()
               matrix.SetImage(image.im.id, 32-n, 10)
               time.sleep(0.05)
 
