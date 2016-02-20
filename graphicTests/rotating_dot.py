@@ -42,7 +42,7 @@ def set_point(x, y):
           2 * 0b00010001)
 
 
-for x in range(1:12):
+for x in range(0,12):
 
         draw_touch(x, 10, 10)
         matrix.Clear()
