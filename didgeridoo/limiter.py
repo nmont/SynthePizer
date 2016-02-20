@@ -2,8 +2,9 @@
 
 from pyaudio import PyAudio, paContinue, paFloat32
 from time import sleep
-from numpy import array, random, arange, float32, float64, zeros, fromstring, vectorize
+from numpy import array, random, arange, float32, float64, zeros, fromstring, vectorize, int16
 import wave
+import signal as keyboard_signal
 
 ################################### Constants ##################################
 
@@ -48,6 +49,27 @@ class Limiter:
             # limit the delayed signal
             signal[i] = self.delay_line[self.delay_index] * self.gain
 
+################################# Change the Volume ############################
+
+volume = 1.0
+
+def update_volume(v):
+    global volume
+    volume = v
+
+def increment_volume(s, f):
+    global volume
+    volume += 0.1
+    print("up " + str(volume))
+
+def decrement_volume(s, f):
+    global volume
+    volume -= 0.1
+    print("down " + str(volume))
+
+keyboard_signal.signal(keyboard_signal.SIGQUIT, increment_volume) # CTRL+\
+keyboard_signal.signal(keyboard_signal.SIGTSTP, decrement_volume) # CTRL+z
+
 ################################# Play the Audio ###############################
 
 wf = wave.open('didgi-7.wav', 'rb')
@@ -83,15 +105,16 @@ def playonce(in_data, frame_count, time_info, status):
 
 # Loops the wave file wf
 def loopaudio(in_data, frame_count, time_info, status):
+    global volume
     if status:
         print("Playback Error: %i" % status)
     swidth = wf.getsampwidth()
     data = wf.readframes(frame_count)
-    raw = fromstring(data, dtype=float32)
-    print(raw)
-    gainlvl = vectorize(lambda x: x * 0.2)
+    raw = fromstring(data, dtype=int16)
+    # print(raw)
+    gainlvl = vectorize(lambda x: x * volume)
     raw = gainlvl(raw)
-    data = raw.astype(float32).tostring()
+    data = raw.astype(int16).tostring()
     if len(data) < 2048 * swidth : # If file is over then rewind.
         wf.rewind()
         data = wf.readframes(frame_count)
