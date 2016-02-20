@@ -142,17 +142,10 @@ while True:
       
     #main menu state
     elif state == MAIN_MENU:
-      image = Image.new("1", (32,32))
-      draw = ImageDraw.Draw(image)
-      #draw the text
-      draw.text((32, 10), "Draw on my board!", fill = 1)
-      #scroll it across the board
-      while True:
-        print("got to the while")
-        for n in range(0, 100):
-          matrix.Clear()
-          matrix.SetImage(image.im.id, 32-n, 10)
-          sleep(0.05)
+      image = Image.open("../assets/mainmenu.jpg")
+      image.load()          # Must do this before SetImage() calls
+      matrix.SetImage(image.im.id, 0, 0)
+      time.wait(10)
 
 usb.util.release_interface(dev, 0)
 usb.util.release_interface(dev, 1)
