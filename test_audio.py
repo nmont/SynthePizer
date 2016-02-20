@@ -3,23 +3,6 @@ import wave
 import pyaudio
 import audioop
 
-class Gain:
-
-    def __init__(self):
-        self.amount = 1.0;
-
-    def gain(self, data, amount):
-        for i in arange(len(signal)):
-            data[i] = 
-
-    def callback(self, in_data, frame_count, time_info):
-        played_frames = counter
-        counter += frame_count
-        self.gain(signal(played_frames:counter], self.
-
-
-
-
 class Audio:
     CHUNK = 1024
     wf = None
