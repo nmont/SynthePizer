@@ -43,6 +43,6 @@ def set_point(x, y, r, b):
     b)
 
 
-for x in range(1:12):
+for x in range(1,12):
   draw_touch(x, 10, 10)
   matrix.Clear()
