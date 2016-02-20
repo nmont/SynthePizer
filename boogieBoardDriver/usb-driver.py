@@ -5,7 +5,7 @@ import usb.util
 import sys
 import Image
 import ImageDraw
-from test_audio import Audio
+#from test_audio import Audio
 from evdev import UInput, AbsInfo, ecodes as e
 from time import sleep
 from numpy import floor
