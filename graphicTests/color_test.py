@@ -6,6 +6,7 @@
 # Requires rgbmatrix.so present in the same directory.
 
 import time
+from random import randint
 from rgbmatrix import Adafruit_RGBmatrix
 
 # Rows and chain length are both required parameters:
@@ -41,9 +42,8 @@ def set_point(x, y, r, b):
 counter = 0
 
 while True:
-  for x in range(0,31):
-    for i in range(5):
-      draw_touch(counter, x, 10)
-      counter += 1
-      time.sleep(.075)
-      matrix.Clear()
+  for i in range(5):
+    draw_touch(counter, randint(0, 31), randint(0, 31))
+    counter += 1
+    time.sleep(.075)
+    matrix.Clear()
