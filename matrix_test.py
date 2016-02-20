@@ -10,7 +10,8 @@ from rgbmatrix import Adafruit_RGBmatrix
 
 # Rows and chain length are both required parameters:
 matrix = Adafruit_RGBmatrix(32, 1)
-
+image = Image.new("1", (32, 32)) 
+draw  = ImageDraw.Draw(image)    
 
 
 # Show RGB test pattern (separate R, G, B color values)
