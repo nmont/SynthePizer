@@ -47,7 +47,7 @@ def draw_touch(counter, x, y, stylusButtonDown):
 # ============== MAIN ==========================
 
 matrix = Adafruit_RGBmatrix(32, 1)
-signal.signal(signal.SIGINT, signal_handler)
+#signal.signal(signal.SIGINT, signal_handler)
 
 # find our device
 dev = usb.core.find(idVendor=0x2914, idProduct=0x0100)
