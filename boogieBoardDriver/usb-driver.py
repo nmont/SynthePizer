@@ -98,7 +98,7 @@ counter = 0
 #state variables
 MAIN_MENU = "MAIN_MENU"
 DRAW = "DRAW"
-state = DRAW
+state = MAIN_MENU
 
 main_image = Image.open("../assets/mainmenu.jpg")
 dick_butt_right_image = Image.open("../assets/dickbuttright.jpg")
