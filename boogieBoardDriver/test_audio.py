@@ -17,7 +17,7 @@ class Audio:
         self.stream = self.p.open(
             format = self.p.get_format_from_width(self.wf.getsampwidth()),
             channels = self.wf.getnchannels(),
-            rate = 48000.0,
+            rate = 48000,
             output = True
         )
         print(self.wf.getframerate())
