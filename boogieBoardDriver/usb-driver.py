@@ -8,35 +8,35 @@ from time import sleep
 from numpy import floor
 from rgbmatrix import Adafruit_RGBmatrix
 
-def draw_touch(counter, x, y):
+def draw_touch(counter, x, y, stylusButtonDown):
   r1 = 0b11111111
   r2 = 0
   g = 0
   b1 = 0b11111111
   b2 = 0
 
+  # tuples of xy inputs for ring cursor
   tup1 = (x-1, x, x+1, x+1, x+1, x, x-1, x-1)
   tup2 = (y-1, y-1, y-1, y, y+1, y+1, y+1, y)
-  #set_point(x, y, r1, b2)
+
+  # light up the middle if the stylus button is down
+  if stylusButtonDown:
+    set_point(x, y, 255, 255, 255)
+
+  # cursor ring
   set_point(tup1[counter], tup2[counter], r1, b2)
-  set_point(tup1[(counter + 1) % 8], tup2[(counter + 1) % 8], r1, b2)
-  set_point(tup1[(counter + 2) % 8], tup2[(counter + 2) % 8], r1, b2)
-  set_point(tup1[(counter + 3) % 8], tup2[(counter + 3) % 8], r1, b2)
-  set_point(tup1[(counter + 4) % 8], tup2[(counter + 4) % 8], r2, b1)
-  set_point(tup1[(counter + 5) % 8], tup2[(counter + 5) % 8], r2, b1)
-  set_point(tup1[(counter + 6) % 8], tup2[(counter + 6) % 8], r2, b1)
-  set_point(tup1[(counter + 7) % 8], tup2[(counter + 7) % 8], r2, b1)
-  #print("Here\n")
+  set_point(tup1[(counter + 1) % 8], tup2[(counter + 1) % 8], r1, 0, b2)
+  set_point(tup1[(counter + 2) % 8], tup2[(counter + 2) % 8], r1, 0, b2)
+  set_point(tup1[(counter + 3) % 8], tup2[(counter + 3) % 8], r1, 0, b2)
+  set_point(tup1[(counter + 4) % 8], tup2[(counter + 4) % 8], r2, 0, b1)
+  set_point(tup1[(counter + 5) % 8], tup2[(counter + 5) % 8], r2, 0, b1)
+  set_point(tup1[(counter + 6) % 8], tup2[(counter + 6) % 8], r2, 0, b1)
+  set_point(tup1[(counter + 7) % 8], tup2[(counter + 7) % 8], r2, 0, b1)
   sleep(0.05)
 
 
-def set_point(x, y, r, b):
-  matrix.SetPixel(
-    x,
-    y,
-    r,
-    (2 * 0b001001001) / 2,
-    b)
+def set_point(x, y, r, g, b):
+  matrix.SetPixel(x, y, r, g, b)
 
 
 matrix = Adafruit_RGBmatrix(32, 1)
@@ -115,7 +115,7 @@ try:
         ypos = int(floor(ypos / (maxypos / 32)))
         
         #print('xpos: %5d ypos: %5d pressure: %3d' % (xpos, ypos, pressure))
-        draw_touch(counter, xpos, ypos)
+        draw_touch(counter, xpos, ypos, stylus)
         counter = (counter + 1) % 8
         # sleep(5)
         matrix.Clear()
