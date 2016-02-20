@@ -11,7 +11,7 @@ from rgbmatrix import Adafruit_RGBmatrix
 # Rows and chain length are both required parameters:
 matrix = Adafruit_RGBmatrix(32, 1)
 
-def draw_touch(counter, x, y, radius):
+def draw_touch(counter, x, y):
   r1 = 0b11111111
   r2 = 0
   g = 0
@@ -20,19 +20,15 @@ def draw_touch(counter, x, y, radius):
 
   tup1 = (x-1, x, x+1, x+1, x+1, x, x-1, x-1)
   tup2 = (y-1, y-1, y-1, y, y+1, y+1, y+1, y)
-  for i in range(100):
-    set_point(tup1[counter % 8], tup2[counter % 8], r1, b2)
-    set_point(tup1[(counter + 1) % 8], tup2[(counter + 1) % 8], r1, b2)
-    set_point(tup1[(counter + 2) % 8], tup2[(counter + 2) % 8], r1, b2)
-    set_point(tup1[(counter + 3) % 8], tup2[(counter + 3) % 8], r1, b2)
-    set_point(tup1[(counter + 4) % 8], tup2[(counter + 4) % 8], r2, b1)
-    set_point(tup1[(counter + 5) % 8], tup2[(counter + 5) % 8], r2, b1)
-    set_point(tup1[(counter + 6) % 8], tup2[(counter + 6) % 8], r2, b1)
-    set_point(tup1[(counter + 7) % 8], tup2[(counter + 7) % 8], r2, b1)
+  set_point(tup1[counter % 8], tup2[counter % 8], r1, b2)
+  set_point(tup1[(counter + 1) % 8], tup2[(counter + 1) % 8], r1, b2)
+  set_point(tup1[(counter + 2) % 8], tup2[(counter + 2) % 8], r1, b2)
+  set_point(tup1[(counter + 3) % 8], tup2[(counter + 3) % 8], r1, b2)
+  set_point(tup1[(counter + 4) % 8], tup2[(counter + 4) % 8], r2, b1)
+  set_point(tup1[(counter + 5) % 8], tup2[(counter + 5) % 8], r2, b1)
+  set_point(tup1[(counter + 6) % 8], tup2[(counter + 6) % 8], r2, b1)
+  set_point(tup1[(counter + 7) % 8], tup2[(counter + 7) % 8], r2, b1)
 
-    time.sleep(.5)
-    matrix.Clear()
-    counter += 1
 
 def set_point(x, y, r, b):
   matrix.SetPixel(
@@ -44,6 +40,10 @@ def set_point(x, y, r, b):
 
 counter = 0
 
-for x in range(1,12):
-  draw_touch(counter, x, 10, 10)
-  matrix.Clear()
+while True:
+  for x in range(1,31):
+    for i in range(50):
+    draw_touch(counter, 10, 10)
+    counter += 1
+    time.sleep(.075)
+    matrix.Clear()
