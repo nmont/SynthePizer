@@ -15,11 +15,11 @@ matrix = Adafruit_RGBmatrix(32, 1)
 
 # Show RGB test pattern (separate R, G, B color values)
 for i in range(0,31):
-	SetPixel(i, 16, 255, 255, 255)
+	matrix.SetPixel(i, 16, 255, 255, 255)
 	if i > 0: 
-		SetPixel(i-1, 16, 200, 200, 200)
+		matrix.SetPixel(i-1, 16, 200, 200, 200)
 	if i > 1:
-		SetPixel(i-2, 16, 100, 100, 100)
+		matrix.SetPixel(i-2, 16, 100, 100, 100)
 	time.sleep(0.1)
 	matrix.clear()
 
