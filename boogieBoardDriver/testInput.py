@@ -3,12 +3,16 @@
 import usb.core
 import usb.util
 import sys
+import Image
+import ImageDraw
 from evdev import UInput, AbsInfo, ecodes as e
-import time
+from time import sleep
+from numpy import floor
 from rgbmatrix import Adafruit_RGBmatrix
 import signal
 import sys
 
+# recognizing SIGING (ctrl + c)
 def signal_handler(signal, frame):
         usb.util.release_interface(dev, 0)
         usb.util.release_interface(dev, 1)
@@ -17,37 +21,35 @@ def signal_handler(signal, frame):
 	print('Cancelling Awesomeness')
         sys.exit(0)
 
-def draw_touch(counter, x, y):
+def draw_touch(counter, x, y, stylusButtonDown):
   r1 = 0b11111111
   r2 = 0
   g = 0
   b1 = 0b11111111
   b2 = 0
 
+  # tuples of xy inputs for ring cursor
   tup1 = (x-1, x, x+1, x+1, x+1, x, x-1, x-1)
   tup2 = (y-1, y-1, y-1, y, y+1, y+1, y+1, y)
-  set_point(tup1[counter % 8], tup2[counter % 8], r1, b2)
-  set_point(tup1[(counter + 1)], tup2[(counter + 1)], r1, b2)
-  set_point(tup1[(counter + 2)], tup2[(counter + 2)], r1, b2)
-  set_point(tup1[(counter + 3)], tup2[(counter + 3)], r1, b2)
-  set_point(tup1[(counter + 4)], tup2[(counter + 4)], r2, b1)
-  set_point(tup1[(counter + 5)], tup2[(counter + 5)], r2, b1)
-  set_point(tup1[(counter + 6)], tup2[(counter + 6)], r2, b1)
-  set_point(tup1[(counter + 7)], tup2[(counter + 7)], r2, b1)
 
+  # light up the middle if the stylus button is down
+  if stylusButtonDown:
+    matrix.SetPixel(x, y, 255, 255, 255)
 
-def set_point(x, y, r, b):
-  matrix.SetPixel(
-    x,
-    y,
-    r,
-    (2 * 0b001001001) / 2,
-    b)
+  # cursor ring
+  matrix.SetPixel(tup1[(counter + 1) % 8], tup2[(counter + 1) % 8], r1, 0, b2)
+  matrix.SetPixel(tup1[(counter + 2) % 8], tup2[(counter + 2) % 8], r1, 0, b2)
+  matrix.SetPixel(tup1[(counter + 3) % 8], tup2[(counter + 3) % 8], r1, 0, b2)
+  matrix.SetPixel(tup1[(counter + 4) % 8], tup2[(counter + 4) % 8], r2, 0, b1)
+  matrix.SetPixel(tup1[(counter + 5) % 8], tup2[(counter + 5) % 8], r2, 0, b1)
+  matrix.SetPixel(tup1[(counter + 6) % 8], tup2[(counter + 6) % 8], r2, 0, b1)
+  matrix.SetPixel(tup1[(counter + 7) % 8], tup2[(counter + 7) % 8], r2, 0, b1)
+  sleep(0.05)
 
-
+# ============== MAIN ==========================
 
 matrix = Adafruit_RGBmatrix(32, 1)
-signal.signal(signal.SIGINT, signal_handler)
+#signal.signal(signal.SIGINT, signal_handler)
 
 # find our device
 dev = usb.core.find(idVendor=0x2914, idProduct=0x0100)
@@ -88,23 +90,17 @@ maxypos = 13442
 minpressure = 0
 maxpressure = 255
 
-# Initialise UInput device
-cap = {
-    e.EV_KEY : (e.BTN_TOUCH, e.BTN_STYLUS2),
-    e.EV_ABS : [
-        # N.B.: There appears to be a mapping bug here; setting min to max results in
-        # setting max when reading back ui capabilities.
-        (e.ABS_PRESSURE, AbsInfo(value=minpressure, min=maxpressure, max=0, fuzz=0, flat=0, resolution=0)),
-        (e.ABS_X, AbsInfo(value=minxpos, min=maxxpos, max=0, fuzz=0, flat=0, resolution=0)),
-        (e.ABS_Y, AbsInfo(value=minypos, min=maxypos, max=0, fuzz=0, flat=0, resolution=0))]
-}
-# ui = UInput(cap, name='boogie-board-sync-pen')
-
 counter = 0
+
+#state variables
+MAIN_MENU = "MAIN_MENU"
+DRAW = "DRAW"
+state = DRAW
 
 try:
     while True:
         try:
+          #bring in data from the boogie board
             data = ep.read(8, 100)
         except usb.USBError as err:
             if err.args != (110, 'Operation timed out'):
@@ -131,21 +127,31 @@ try:
         touch = data[7] & 0x01
         stylus = (data[7] & 0x02)>>1
         
-        xpos = math.floor(xpos / (maxypos / 32))
-        ypos = math.floor(ypos / (maxypos / 32))
+        xpos = int(floor(xpos / (maxypos / 32)))
+        ypos = int(floor(ypos / (maxypos / 32)))
         
-        # ui.write(e.EV_ABS, e.ABS_PRESSURE, pressure)
-        # ui.write(e.EV_ABS, e.ABS_X, xpos)
-        # ui.write(e.EV_ABS, e.ABS_Y, ypos)
-        # ui.write(e.EV_KEY,e.BTN_TOUCH,touch)
-        # ui.write(e.EV_KEY,e.BTN_STYLUS2,stylus)
-        # ui.syn()
-        #print('xpos: %5d ypos: %5d pressure: %3d' % (xpos, ypos, pressure))
-        draw_touch(counter, xpos, ypos)
-        counter = (counter + 1) % 8
-        time.sleep(.5)
-        matrix.Clear()
-        # print('touch: %d stylus %d' % (touch, stylus))
+        # determine state
+
+        # draw state
+        if state == DRAW:
+          draw_touch(counter, xpos, ypos, stylus)
+          counter = (counter + 1) % 8
+          matrix.Clear()
+          
+        #main menu state
+        elif state == MAIN_MENU:
+          image = Image.new("1", (32,32))
+          #draw the text
+          draw.text((32, 10), "Draw on my board!", fill = 1)
+          #scroll it across the board
+          while true:
+            for n in range(0, 100)
+              matrix.clear()
+              matrix.SetImage(image.im.id, 32-n, 10)
+              time.sleep(0.05)
+
+
+
 except KeyboardInterrupt:
     pass
 
