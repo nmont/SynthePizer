@@ -15,14 +15,13 @@ draw  = ImageDraw.Draw(image)
 
 
 # Show RGB test pattern (separate R, G, B color values)
-draw.text((i, 16), "hey", fill=1)
+draw.text((0, 16), "Fuck you bowler", fill=1)
 
-for n in range(-32, 33): # Start off top-left, move off bottom-right
+for n in range(-128, 128): # Start off top-left, move off bottom-right
 	matrix.Clear()
 	# IMPORTANT: *MUST* pass image ID, *NOT* image object!
-	matrix.SetImage(image.im.id, n, n)
+	matrix.SetImage(image.im.id, -n, 0)
 	time.sleep(0.05)
 
 
-time.sleep(10.0)
 matrix.Clear()
