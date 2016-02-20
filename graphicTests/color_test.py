@@ -33,7 +33,7 @@ def draw_touch(x, y, radius):
 
     time.sleep(.5)
     matrix.Clear()
-    counter++
+    counter += 1
 
 def set_point(x, y, r, b):
   matrix.SetPixel(
