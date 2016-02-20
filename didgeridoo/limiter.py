@@ -89,8 +89,8 @@ def loopaudio(in_data, frame_count, time_info, status):
     data = wf.readframes(frame_count)
     raw = fromstring(data, dtype=float32)
     print(raw)
-    # gainlvl = vectorize(lambda x: x * 0.2)
-    # raw = gainlvl(raw)
+    gainlvl = vectorize(lambda x: x * 0.2)
+    raw = gainlvl(raw)
     data = raw.astype(float32).tostring()
     if len(data) < 2048 * swidth : # If file is over then rewind.
         wf.rewind()
