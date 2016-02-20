@@ -130,25 +130,7 @@ try:
         xpos = int(floor(xpos / (maxypos / 32)))
         ypos = int(floor(ypos / (maxypos / 32)))
         
-        # determine state
-
-        # draw state
-        if state == DRAW:
-          draw_touch(counter, xpos, ypos, stylus)
-          counter = (counter + 1) % 8
-          matrix.Clear()
-          
-        #main menu state
-        elif state == MAIN_MENU:
-          image = Image.new("1", (32,32))
-          #draw the text
-          draw.text((32, 10), "Draw on my board!", fill = 1)
-          #scroll it across the board
-          while true:
-            for n in range(0, 100)
-              matrix.clear()
-              matrix.SetImage(image.im.id, 32-n, 10)
-              time.sleep(0.05)
+        draw_touch(counter, xpos, ypos, stylus)
 
 
 
