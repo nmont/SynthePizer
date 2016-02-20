@@ -21,22 +21,19 @@ def draw_touch(counter, x, y, stylusButtonDown):
 
   # light up the middle if the stylus button is down
   if stylusButtonDown:
-    set_point(x, y, 255, 255, 255)
+    matrix.SetPixel(x, y, 255, 255, 255)
 
   # cursor ring
-  set_point(tup1[(counter + 1) % 8], tup2[(counter + 1) % 8], r1, 0, b2)
-  set_point(tup1[(counter + 2) % 8], tup2[(counter + 2) % 8], r1, 0, b2)
-  set_point(tup1[(counter + 3) % 8], tup2[(counter + 3) % 8], r1, 0, b2)
-  set_point(tup1[(counter + 4) % 8], tup2[(counter + 4) % 8], r2, 0, b1)
-  set_point(tup1[(counter + 5) % 8], tup2[(counter + 5) % 8], r2, 0, b1)
-  set_point(tup1[(counter + 6) % 8], tup2[(counter + 6) % 8], r2, 0, b1)
-  set_point(tup1[(counter + 7) % 8], tup2[(counter + 7) % 8], r2, 0, b1)
+  matrix.SetPixel(tup1[(counter + 1) % 8], tup2[(counter + 1) % 8], r1, 0, b2)
+  matrix.SetPixel(tup1[(counter + 2) % 8], tup2[(counter + 2) % 8], r1, 0, b2)
+  matrix.SetPixel(tup1[(counter + 3) % 8], tup2[(counter + 3) % 8], r1, 0, b2)
+  matrix.SetPixel(tup1[(counter + 4) % 8], tup2[(counter + 4) % 8], r2, 0, b1)
+  matrix.SetPixel(tup1[(counter + 5) % 8], tup2[(counter + 5) % 8], r2, 0, b1)
+  matrix.SetPixel(tup1[(counter + 6) % 8], tup2[(counter + 6) % 8], r2, 0, b1)
+  matrix.SetPixel(tup1[(counter + 7) % 8], tup2[(counter + 7) % 8], r2, 0, b1)
   sleep(0.05)
 
-
-def set_point(x, y, r, g, b):
-  matrix.SetPixel(x, y, r, g, b)
-
+# ============== MAIN ==========================
 
 matrix = Adafruit_RGBmatrix(32, 1)
 
