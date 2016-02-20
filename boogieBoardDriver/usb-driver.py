@@ -7,6 +7,17 @@ from evdev import UInput, AbsInfo, ecodes as e
 from time import sleep
 from numpy import floor
 from rgbmatrix import Adafruit_RGBmatrix
+import signal
+import sys
+
+# recognizing SIGING (ctrl + c)
+def signal_handler(signal, frame):
+        usb.util.release_interface(dev, 0)
+        usb.util.release_interface(dev, 1)
+        dev.attach_kernel_driver(0)
+        dev.attach_kernel_driver(1)
+	print('Cancelling Awesomeness')
+        sys.exit(0)
 
 def draw_touch(counter, x, y, stylusButtonDown):
   r1 = 0b11111111
@@ -36,6 +47,7 @@ def draw_touch(counter, x, y, stylusButtonDown):
 # ============== MAIN ==========================
 
 matrix = Adafruit_RGBmatrix(32, 1)
+signal.signal(signal.SIGINT, signal_handler)
 
 # find our device
 dev = usb.core.find(idVendor=0x2914, idProduct=0x0100)
