@@ -105,6 +105,8 @@ counter = 0
 MAIN_MENU = "MAIN_MENU"
 DRAW = "DRAW"
 SELECT_INSTRUMENT = "SELECT_INSTRUMENT"
+PLAY_DIDGERIDOO = "PLAY_DIDGERIDOO"
+PLAY_TROMBONE = "PLAY_TROMBONE"
 state = MAIN_MENU
 
 main_image = Image.open("../assets/mainmenu.jpg")
@@ -183,14 +185,29 @@ while True:
         if xpos == 0 and ypos == 0 and stylus:
           is_touched = True
           state = MAIN_MENU
-        elif xpos > 16 and stylus and not is_touched:
+        elif xpos > 16 and ypos < 25 and stylus and not is_touched:
           is_touched = True
           image_count = (image_count + 1) % num_images
-        elif xpos <= 16 and stylus and not is_touched:
+        elif xpos <= 16 and ypos < 25 and stylus and not is_touched:
           is_touched = True
           image_count = (image_count - 1) % num_images
+        elif ypos >= 25 and stylus and not is_touched:
+          is_touched = True
+          if image_count == 0:
+            state = PLAY_DIDGERIDOO
+          elif image_count == 1:
+            state = PLAY_TROMBONE
+          else:
+            print('Image count error')
+            state = MAIN_MENU
         elif not stylus and is_touched:
           is_touched = False
+
+    elif state == PLAY_DIDGERIDOO:
+      print('DIDGERIDOO!!!')
+
+    elif state == PLAY_TROMBONE:
+      print('TROMBONE!!!')
 
 
 
