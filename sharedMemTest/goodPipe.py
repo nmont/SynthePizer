@@ -6,10 +6,9 @@ import usb.util
 import sys
 import Image
 import ImageDraw
-from test_audio import Audio
 from evdev import UInput, AbsInfo, ecodes as e
 from time import sleep
-#from rgbmatrix import Adafruit_RGBmatrix
+from rgbmatrix import Adafruit_RGBmatrix
 from signal import signal, SIGPIPE, SIG_DFL, SIGINT
 
 
@@ -67,38 +66,38 @@ if pid:          # Parent
 
     waves = {}
 
-    waves[1]  = wave.open('trombone/trombone-01.wav', 'rb')
-    waves[2]  = wave.open('trombone/trombone-02.wav', 'rb')
-    waves[3]  = wave.open('trombone/trombone-03.wav', 'rb')
-    waves[4]  = wave.open('trombone/trombone-04.wav', 'rb')
-    waves[5]  = wave.open('trombone/trombone-05.wav', 'rb')
-    waves[6]  = wave.open('trombone/trombone-06.wav', 'rb')
-    waves[7]  = wave.open('trombone/trombone-07.wav', 'rb')
-    waves[8]  = wave.open('trombone/trombone-08.wav', 'rb')
-    waves[9]  = wave.open('trombone/trombone-09.wav', 'rb')
-    waves[10] = wave.open('trombone/trombone-10.wav', 'rb')
-    waves[11] = wave.open('trombone/trombone-11.wav', 'rb')
-    waves[12] = wave.open('trombone/trombone-12.wav', 'rb')
-    waves[13] = wave.open('trombone/trombone-13.wav', 'rb')
-    waves[14] = wave.open('trombone/trombone-14.wav', 'rb')
-    waves[15] = wave.open('trombone/trombone-15.wav', 'rb')
-    waves[16] = wave.open('trombone/trombone-16.wav', 'rb')
-    waves[17] = wave.open('trombone/trombone-17.wav', 'rb')
-    waves[18] = wave.open('trombone/trombone-18.wav', 'rb')
-    waves[19] = wave.open('trombone/trombone-19.wav', 'rb')
-    waves[20] = wave.open('trombone/trombone-20.wav', 'rb')
-    waves[21] = wave.open('trombone/trombone-21.wav', 'rb')
-    waves[22] = wave.open('trombone/trombone-22.wav', 'rb')
-    waves[23] = wave.open('trombone/trombone-23.wav', 'rb')
-    waves[24] = wave.open('trombone/trombone-24.wav', 'rb')
-    waves[25] = wave.open('trombone/trombone-25.wav', 'rb')
-    waves[26] = wave.open('trombone/trombone-26.wav', 'rb')
-    waves[27] = wave.open('trombone/trombone-27.wav', 'rb')
-    waves[28] = wave.open('trombone/trombone-28.wav', 'rb')
-    waves[29] = wave.open('trombone/trombone-29.wav', 'rb')
-    waves[30] = wave.open('trombone/trombone-30.wav', 'rb')
-    waves[31] = wave.open('trombone/trombone-31.wav', 'rb')
-    waves[32] = wave.open('trombone/trombone-32.wav', 'rb')
+    waves[1]  = wave.open('../didgeridoo/trombone/trombone-01.wav', 'rb')
+    waves[2]  = wave.open('../didgeridoo/trombone/trombone-02.wav', 'rb')
+    waves[3]  = wave.open('../didgeridoo/trombone/trombone-03.wav', 'rb')
+    waves[4]  = wave.open('../didgeridoo/trombone/trombone-04.wav', 'rb')
+    waves[5]  = wave.open('../didgeridoo/trombone/trombone-05.wav', 'rb')
+    waves[6]  = wave.open('../didgeridoo/trombone/trombone-06.wav', 'rb')
+    waves[7]  = wave.open('../didgeridoo/trombone/trombone-07.wav', 'rb')
+    waves[8]  = wave.open('../didgeridoo/trombone/trombone-08.wav', 'rb')
+    waves[9]  = wave.open('../didgeridoo/trombone/trombone-09.wav', 'rb')
+    waves[10] = wave.open('../didgeridoo/trombone/trombone-10.wav', 'rb')
+    waves[11] = wave.open('../didgeridoo/trombone/trombone-11.wav', 'rb')
+    waves[12] = wave.open('../didgeridoo/trombone/trombone-12.wav', 'rb')
+    waves[13] = wave.open('../didgeridoo/trombone/trombone-13.wav', 'rb')
+    waves[14] = wave.open('../didgeridoo/trombone/trombone-14.wav', 'rb')
+    waves[15] = wave.open('../didgeridoo/trombone/trombone-15.wav', 'rb')
+    waves[16] = wave.open('../didgeridoo/trombone/trombone-16.wav', 'rb')
+    waves[17] = wave.open('../didgeridoo/trombone/trombone-17.wav', 'rb')
+    waves[18] = wave.open('../didgeridoo/trombone/trombone-18.wav', 'rb')
+    waves[19] = wave.open('../didgeridoo/trombone/trombone-19.wav', 'rb')
+    waves[20] = wave.open('../didgeridoo/trombone/trombone-20.wav', 'rb')
+    waves[21] = wave.open('../didgeridoo/trombone/trombone-21.wav', 'rb')
+    waves[22] = wave.open('../didgeridoo/trombone/trombone-22.wav', 'rb')
+    waves[23] = wave.open('../didgeridoo/trombone/trombone-23.wav', 'rb')
+    waves[24] = wave.open('../didgeridoo/trombone/trombone-24.wav', 'rb')
+    waves[25] = wave.open('../didgeridoo/trombone/trombone-25.wav', 'rb')
+    waves[26] = wave.open('../didgeridoo/trombone/trombone-26.wav', 'rb')
+    waves[27] = wave.open('../didgeridoo/trombone/trombone-27.wav', 'rb')
+    waves[28] = wave.open('../didgeridoo/trombone/trombone-28.wav', 'rb')
+    waves[29] = wave.open('../didgeridoo/trombone/trombone-29.wav', 'rb')
+    waves[30] = wave.open('../didgeridoo/trombone/trombone-30.wav', 'rb')
+    waves[31] = wave.open('../didgeridoo/trombone/trombone-31.wav', 'rb')
+    waves[32] = wave.open('../didgeridoo/trombone/trombone-32.wav', 'rb')
 
     pa = PyAudio()
 
@@ -130,9 +129,12 @@ if pid:          # Parent
         output = True,
         stream_callback = loopaudio)
 
+    print "Hey, Parent Process1"
     stream.start_stream()
+    print "Hey, Parent Process2"
 
     while stream.is_active():
+        print "Hey, Parent Process3"
         data=r.readline()
         if not data: break
         str_vals = data.strip().split()
@@ -191,158 +193,158 @@ else:           # Child
 
       # ============== MAIN ==========================
 
-      matrix = Adafruit_RGBmatrix(32, 1)
-      signal(SIGINT, signal_handler)
+    matrix = Adafruit_RGBmatrix(32, 1)
+    signal(SIGINT, signal_handler)
 
-      # find our device
-      dev = usb.core.find(idVendor=0x2914, idProduct=0x0100)
-      if dev.is_kernel_driver_active(1):
-          dev.detach_kernel_driver(1)
-      if dev.is_kernel_driver_active(0):
-          try:
-              dev.detach_kernel_driver(0)
-          except:
-              dev.attach_kernel_driver(1)
-
-      # knock into tablet mode
-      payload = '\x05\x00\x03'
-      while True:
-          try:
-              assert dev.ctrl_transfer(0x21, 0x09, 0x0305, 1, payload, 100) == len(payload)
-              break
-          except usb.USBError as err:
-              if err.args != (110, 'Operation timed out') and err.args != (32, 'Pipe error'):
-                  raise err
-              print('payload transfer failed, retrying')
-      print('Payload sent')
-
-      # Pull out interrupt endpoint
-      cfg = dev[0]
-      intf = cfg[(1,0)]
-      ep = intf[0]
-
-      # Maximum position possible
-      minxpos = 0
-      minypos = 0
-      maxxpos = 19780
-      maxypos = 13442
-      minpressure = 0
-      maxpressure = 255
-
-      counter = 0
-
-
-      #state variables
-      MAIN_MENU = "MAIN_MENU"
-      DRAW = "DRAW"
-      SELECT_INSTRUMENT = "SELECT_INSTRUMENT"
-      PLAY_DIDGERIDOO = "PLAY_DIDGERIDOO"
-      PLAY_TROMBONE = "PLAY_TROMBONE"
-      state = MAIN_MENU
-
-      main_image = Image.open("../assets/mainmenu.jpg")
-      didgeridoo_image = Image.open("../assets/didgeridoo.jpg")
-      trombone_image = Image.open("../assets/trombone.jpg")
-
-      image_array = [didgeridoo_image, trombone_image]
-      num_images = len(image_array)
-      image_count = 0
-      is_touched = False
-
-      while True:
+    # find our device
+    dev = usb.core.find(idVendor=0x2914, idProduct=0x0100)
+    if dev.is_kernel_driver_active(1):
+        dev.detach_kernel_driver(1)
+    if dev.is_kernel_driver_active(0):
         try:
-          #bring in data from the boogie board
-          data = ep.read(8, 100)
+            dev.detach_kernel_driver(0)
+        except:
+            dev.attach_kernel_driver(1)
+
+    # knock into tablet mode
+    payload = '\x05\x00\x03'
+    while True:
+        try:
+            assert dev.ctrl_transfer(0x21, 0x09, 0x0305, 1, payload, 100) == len(payload)
+            break
         except usb.USBError as err:
-          if err.args != (110, 'Operation timed out'):
-            raise err
-          continue
+            if err.args != (110, 'Operation timed out') and err.args != (32, 'Pipe error'):
+                raise err
+            print('payload transfer failed, retrying')
+    print('Payload sent')
 
-        xpos = data[1] | data[2] << 8
-        ypos = data[3] | data[4] << 8
+    # Pull out interrupt endpoint
+    cfg = dev[0]
+    intf = cfg[(1,0)]
+    ep = intf[0]
 
-        if xpos < minxpos:
-          minxpos = xpos
-          print('updated minxpos to %d' % minxpos)
-        if xpos > maxxpos:
-          maxxpos = xpos
-          print('updated maxxpos to %d' % maxxpos)
-        if ypos < minypos:
-          minypos = ypos
-          print('updated minypos to %d' % minypos)
-        if ypos > maxypos:
-          maxypos = ypos
-          print('updated maxypos to %d' % maxypos)
+    # Maximum position possible
+    minxpos = 0
+    minypos = 0
+    maxxpos = 19780
+    maxypos = 13442
+    minpressure = 0
+    maxpressure = 255
 
-        pressure = data[5] | data[6] << 8
-        touch = data[7] & 0x01
-        stylus = (data[7] & 0x02)>>1
-        
-        xpos = int(floor(xpos / (maxypos / 32)))
-        ypos = int(floor(ypos / (maxypos / 32)))
+    counter = 0
 
-        print >> w, "%d %d %d" % (xpos,ypos,pressure)
-        w.flush()
-        
-        # determine state
-        # main menu state
-        if state == MAIN_MENU:
-          matrix.Clear()
-          main_image.load()
-          matrix.SetImage(main_image.im.id,0,0)
-          if touch and not is_touched:
-            draw_touch(counter, xpos, ypos, stylus)
-            counter = (counter + 1) % 8
-            if stylus:
-              state = SELECT_INSTRUMENT
-              is_touched = True
-          elif not stylus and is_touched:
-            is_touched = False
 
-        # draw state
-        if state == DRAW:
-          if xpos == 0 and ypos == 0 and stylus:
-            is_touched = True
-            state = MAIN_MENU
-          matrix.Fill((xpos*8)-1,(ypos*8)-1,((xpos+ypos)*4)-1)
-          draw_touch(counter, xpos, ypos, stylus)
-          counter = (counter + 1) % 8
+    #state variables
+    MAIN_MENU = "MAIN_MENU"
+    DRAW = "DRAW"
+    SELECT_INSTRUMENT = "SELECT_INSTRUMENT"
+    PLAY_DIDGERIDOO = "PLAY_DIDGERIDOO"
+    PLAY_TROMBONE = "PLAY_TROMBONE"
+    state = MAIN_MENU
 
-        elif state == SELECT_INSTRUMENT:
-          matrix.Clear()
-          # draw the image
-          image_array[image_count].load()          
-          matrix.SetImage(image_array[image_count].im.id, 0, 0)
-          if touch:
-            draw_touch(counter, xpos, ypos, stylus)
-            counter = (counter + 1) % 8
-            
-            # scroll through selections
-            # return to main menu
-            if xpos == 0 and ypos == 0 and stylus:
-              is_touched = True
-              state = MAIN_MENU
+    main_image = Image.open("../assets/mainmenu.jpg")
+    didgeridoo_image = Image.open("../assets/didgeridoo.jpg")
+    trombone_image = Image.open("../assets/trombone.jpg")
 
-            # select instrument
-            elif ypos >= 25 and stylus and not is_touched:
-              is_touched = True
-              state = DRAW
+    image_array = [didgeridoo_image, trombone_image]
+    num_images = len(image_array)
+    image_count = 0
+    is_touched = False
 
-            # scroll right
-            elif xpos > 16 and stylus and not is_touched:
-              is_touched = True
-              image_count = (image_count + 1) % num_images
-            
-            # scroll left
-            elif xpos <= 16 and stylus and not is_touched:
-              is_touched = True
-              image_count = (image_count - 1) % num_images
+    while True:
+      try:
+        #bring in data from the boogie board
+        data = ep.read(8, 100)
+      except usb.USBError as err:
+        if err.args != (110, 'Operation timed out'):
+          raise err
+        continue
 
-            # not touching the board
-            elif not stylus and is_touched:
-              is_touched = False
+      xpos = data[1] | data[2] << 8
+      ypos = data[3] | data[4] << 8
 
-        sleep(0.02)
+      if xpos < minxpos:
+        minxpos = xpos
+        print('updated minxpos to %d' % minxpos)
+      if xpos > maxxpos:
+        maxxpos = xpos
+        print('updated maxxpos to %d' % maxxpos)
+      if ypos < minypos:
+        minypos = ypos
+        print('updated minypos to %d' % minypos)
+      if ypos > maxypos:
+        maxypos = ypos
+        print('updated maxypos to %d' % maxypos)
+
+      pressure = data[5] | data[6] << 8
+      touch = data[7] & 0x01
+      stylus = (data[7] & 0x02)>>1
+      
+      xpos = int(floor(xpos / (maxypos / 32)))
+      ypos = int(floor(ypos / (maxypos / 32)))
+
+      print >> w, "%d %d %d" % (xpos,ypos,pressure)
+      w.flush()
+      
+      # determine state
+      # main menu state
+    #  if state == MAIN_MENU:
+    #    matrix.Clear()
+    #    main_image.load()
+    #    matrix.SetImage(main_image.im.id,0,0)
+    #    if touch and not is_touched:
+    #      draw_touch(counter, xpos, ypos, stylus)
+    #      counter = (counter + 1) % 8
+    #      if stylus:
+    #        state = SELECT_INSTRUMENT
+    #        is_touched = True
+    #    elif not stylus and is_touched:
+    #      is_touched = False
+
+    #  # draw state
+    #  if state == DRAW:
+    #    if xpos == 0 and ypos == 0 and stylus:
+    #      is_touched = True
+    #      state = MAIN_MENU
+    #    matrix.Fill((xpos*8)-1,(ypos*8)-1,((xpos+ypos)*4)-1)
+    #    draw_touch(counter, xpos, ypos, stylus)
+    #    counter = (counter + 1) % 8
+
+    #  elif state == SELECT_INSTRUMENT:
+    #    matrix.Clear()
+    #    # draw the image
+    #    image_array[image_count].load()          
+    #    matrix.SetImage(image_array[image_count].im.id, 0, 0)
+    #    if touch:
+    #      draw_touch(counter, xpos, ypos, stylus)
+    #      counter = (counter + 1) % 8
+    #      
+    #      # scroll through selections
+    #      # return to main menu
+    #      if xpos == 0 and ypos == 0 and stylus:
+    #        is_touched = True
+    #        state = MAIN_MENU
+
+    #      # select instrument
+    #      elif ypos >= 25 and stylus and not is_touched:
+    #        is_touched = True
+    #        state = DRAW
+
+    #      # scroll right
+    #      elif xpos > 16 and stylus and not is_touched:
+    #        is_touched = True
+    #        image_count = (image_count + 1) % num_images
+    #      
+    #      # scroll left
+    #      elif xpos <= 16 and stylus and not is_touched:
+    #        is_touched = True
+    #        image_count = (image_count - 1) % num_images
+
+    #      # not touching the board
+    #      elif not stylus and is_touched:
+    #        is_touched = False
+
+    #    #sleep(0.02)
 
     usb.util.release_interface(dev, 0)
     usb.util.release_interface(dev, 1)
