@@ -64,7 +64,7 @@ if pid:          # Parent
 
 ################################# Play the Audio ###############################
     
-    waves = {"trombone":[None]*33, "didgeridoo":[None]*33}
+    waves = {"trombone":[None]*33, "didgeridoo":[None]*33, "organ":[None]*33}
 
     
 
@@ -134,6 +134,39 @@ if pid:          # Parent
     waves["didgeridoo"][31] = wave.open('../didgeridoo/didgi/didgi-31.wav', 'rb')
     waves["didgeridoo"][32] = wave.open('../didgeridoo/didgi/didgi-32.wav', 'rb')
 
+    waves["organ"][1] = wave.open('../didgeridoo/organ/organ-01.wav', 'rb')
+    waves["organ"][2] = wave.open('../didgeridoo/organ/organ-02.wav', 'rb')
+    waves["organ"][3] = wave.open('../didgeridoo/organ/organ-03.wav', 'rb')
+    waves["organ"][4] = wave.open('../didgeridoo/organ/organ-04.wav', 'rb')
+    waves["organ"][5] = wave.open('../didgeridoo/organ/organ-05.wav', 'rb')
+    waves["organ"][6] = wave.open('../didgeridoo/organ/organ-06.wav', 'rb')
+    waves["organ"][7] = wave.open('../didgeridoo/organ/organ-07.wav', 'rb')
+    waves["organ"][8] = wave.open('../didgeridoo/organ/organ-08.wav', 'rb')
+    waves["organ"][9] = wave.open('../didgeridoo/organ/organ-09.wav', 'rb')
+    waves["organ"][10] = wave.open('../didgeridoo/organ/organ-10.wav', 'rb')
+    waves["organ"][11] = wave.open('../didgeridoo/organ/organ-11.wav', 'rb')
+    waves["organ"][12] = wave.open('../didgeridoo/organ/organ-12.wav', 'rb')
+    waves["organ"][13] = wave.open('../didgeridoo/organ/organ-13.wav', 'rb')
+    waves["organ"][14] = wave.open('../didgeridoo/organ/organ-14.wav', 'rb')
+    waves["organ"][15] = wave.open('../didgeridoo/organ/organ-15.wav', 'rb')
+    waves["organ"][16] = wave.open('../didgeridoo/organ/organ-16.wav', 'rb')
+    waves["organ"][17] = wave.open('../didgeridoo/organ/organ-17.wav', 'rb')
+    waves["organ"][18] = wave.open('../didgeridoo/organ/organ-18.wav', 'rb')
+    waves["organ"][19] = wave.open('../didgeridoo/organ/organ-19.wav', 'rb')
+    waves["organ"][20] = wave.open('../didgeridoo/organ/organ-20.wav', 'rb')
+    waves["organ"][21] = wave.open('../didgeridoo/organ/organ-21.wav', 'rb')
+    waves["organ"][22] = wave.open('../didgeridoo/organ/organ-22.wav', 'rb')
+    waves["organ"][23] = wave.open('../didgeridoo/organ/organ-23.wav', 'rb')
+    waves["organ"][24] = wave.open('../didgeridoo/organ/organ-24.wav', 'rb')
+    waves["organ"][25] = wave.open('../didgeridoo/organ/organ-25.wav', 'rb')
+    waves["organ"][26] = wave.open('../didgeridoo/organ/organ-26.wav', 'rb')
+    waves["organ"][27] = wave.open('../didgeridoo/organ/organ-27.wav', 'rb')
+    waves["organ"][28] = wave.open('../didgeridoo/organ/organ-28.wav', 'rb')
+    waves["organ"][29] = wave.open('../didgeridoo/organ/organ-29.wav', 'rb')
+    waves["organ"][30] = wave.open('../didgeridoo/organ/organ-30.wav', 'rb')
+    waves["organ"][31] = wave.open('../didgeridoo/organ/organ-31.wav', 'rb')
+    waves["organ"][32] = wave.open('../didgeridoo/organ/organ-32.wav', 'rb')
+
     pa = PyAudio()
 
     # Loops the wave file wf
@@ -185,6 +218,8 @@ if pid:          # Parent
           instrument = "didgeridoo" 
         if int_list[3] == 1:
           instrument = "trombone"
+        if int_list[3] == 2:
+          instrument = "organ"
         #print "parent read: " + data.strip()
         time.sleep(0.01)
 
@@ -281,15 +316,14 @@ else:           # Child
     MAIN_MENU = "MAIN_MENU"
     DRAW = "DRAW"
     SELECT_INSTRUMENT = "SELECT_INSTRUMENT"
-    PLAY_DIDGERIDOO = "PLAY_DIDGERIDOO"
-    PLAY_TROMBONE = "PLAY_TROMBONE"
     state = MAIN_MENU
 
     main_image = Image.open("../assets/mainmenu.jpg")
     didgeridoo_image = Image.open("../assets/didgeridoo.jpg")
     trombone_image = Image.open("../assets/trombone.jpg")
+    organ_image = Image.open("../assets/organ.jpg")
 
-    image_array = [didgeridoo_image, trombone_image]
+    image_array = [didgeridoo_image, trombone_image, organ_image]
     num_images = len(image_array)
     image_count = 0
     is_touched = False
