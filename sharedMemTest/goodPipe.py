@@ -64,7 +64,7 @@ if pid:          # Parent
 
 ################################# Play the Audio ###############################
 
-    waves = {}
+    waves = {trombone:[], didgeridoo:[]}
 
     
 
