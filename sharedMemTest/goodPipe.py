@@ -174,10 +174,18 @@ if pid:          # Parent
         global data_pos, volume, pitch, instrument
         if pitch <= 0:
             pitch = 1
+        elif pitch >= 32:
+            pitch = 32
         if status:
             print("Playback Error: %i" % status)
         swidth = waves[instrument][1].getsampwidth()
-        waves[instrument][pitch].setpos(data_pos)
+        try:
+            waves[instrument][pitch].setpos(data_pos)
+        except:
+            print(instrument)
+            print(pitch)
+            print(data_pos)
+
         data = waves[instrument][pitch].readframes(frame_count)
         raw = fromstring(data, dtype=int16)
         # print(raw)
@@ -418,6 +426,8 @@ else:           # Child
           elif xpos <= 16 and stylus and not is_touched:
             is_touched = True
             image_count = (image_count - 1) % num_images
+            if image_count < 0:
+                image_count = num_images - 1
 
           # not touching the board
           elif not stylus and is_touched:
