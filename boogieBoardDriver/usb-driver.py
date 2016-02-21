@@ -56,7 +56,11 @@ signal.signal(signal.SIGINT, signal_handler)
 
 # find our device
 dev = usb.core.find(idVendor=0x2914, idProduct=0x0100)
+if dev is None:
+    print("Dev is Null. Try Again")
+    sys.exit(1)
 if dev.is_kernel_driver_active(1):
+    print("passed dev.detach")
     dev.detach_kernel_driver(1)
 if dev.is_kernel_driver_active(0):
     try:
@@ -64,6 +68,7 @@ if dev.is_kernel_driver_active(0):
     except:
         dev.attach_kernel_driver(1)
 
+print('about to send payloud')
 #dev.set_configuration()
 #usb.util.claim_interface(dev, 1)
 #usb.util.claim_interface(dev, 0)
@@ -73,6 +78,7 @@ payload = '\x05\x00\x03'
 while True:
     try:
         assert dev.ctrl_transfer(0x21, 0x09, 0x0305, 1, payload, 100) == len(payload)
+        print('sent payload')
         break
     except usb.USBError as err:
         if err.args != (110, 'Operation timed out') and err.args != (32, 'Pipe error'):
@@ -104,8 +110,9 @@ state = MAIN_MENU
 main_image = Image.open("../assets/mainmenu.jpg")
 dick_butt_right_image = Image.open("../assets/dickbuttright.jpg")
 dick_butt_left_image = Image.open("../assets/dickbuttleft.jpg")
+didgeridoo_image = Image.open("../assets/didgeridoo.jpg")
 
-image_array = [dick_butt_right_image, dick_butt_left_image]
+image_array = [dick_butt_right_image, dick_butt_left_image, didgeridoo_image]
 num_images = len(image_array)
 image_count = 0
 is_touched = False
@@ -144,13 +151,17 @@ while True:
     
     # determine state
     # main menu state
-    if state = MAIN_MENU:
+    if state == MAIN_MENU:
       matrix.Clear()
       main_image.load()
-      if touch:
+      matrix.SetImage(main_image.im.id,0,0)
+      if touch and not is_touched:
         draw_touch(counter, xpos, ypos, stylus)
         if stylus:
           state = SELECT_INSTRUMENT
+          is_touched = True
+      elif not stylus and is_touched:
+        is_touched = False
 
     # draw state
     if state == DRAW:
@@ -158,7 +169,6 @@ while True:
       counter = (counter + 1) % 8
       matrix.Clear()
       
-    #select state
     elif state == SELECT_INSTRUMENT:
       matrix.Clear()
       # draw the image
@@ -168,7 +178,10 @@ while True:
         draw_touch(counter, xpos, ypos, stylus)
         counter = (counter + 1) % 8
         # scroll through selections
-        if xpos > 16 and stylus and not is_touched:
+        if xpos == 0 and ypos == 0 and stylus:
+          is_touched = True
+          state = MAIN_MENU
+        elif xpos > 16 and stylus and not is_touched:
           is_touched = True
           image_count = (image_count + 1) % num_images
         elif xpos <= 16 and stylus and not is_touched:
