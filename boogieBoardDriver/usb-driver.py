@@ -98,7 +98,17 @@ counter = 0
 #state variables
 MAIN_MENU = "MAIN_MENU"
 DRAW = "DRAW"
-state = DRAW
+SELECT_INSTRUMENT = "SELECT_INSTRUMENT"
+state = MAIN_MENU
+
+main_image = Image.open("../assets/mainmenu.jpg")
+dick_butt_right_image = Image.open("../assets/dickbuttright.jpg")
+dick_butt_left_image = Image.open("../assets/dickbuttleft.jpg")
+
+image_array = [dick_butt_right_image, dick_butt_left_image]
+num_images = len(image_array)
+image_count = 0
+is_touched = False
 
 while True:
     try:
@@ -133,6 +143,14 @@ while True:
     ypos = int(floor(ypos / (maxypos / 32)))
     
     # determine state
+    # main menu state
+    if state = MAIN_MENU:
+      matrix.Clear()
+      main_image.load()
+      if touch:
+        draw_touch(counter, xpos, ypos, stylus)
+        if stylus:
+          state = SELECT_INSTRUMENT
 
     # draw state
     if state == DRAW:
@@ -140,12 +158,28 @@ while True:
       counter = (counter + 1) % 8
       matrix.Clear()
       
-    #main menu state
-    elif state == MAIN_MENU:
-      image = Image.open("../assets/mainmenu.jpg")
-      image.load()          # Must do this before SetImage() calls
-      matrix.SetImage(image.im.id, 0, 0)
-      time.wait(10)
+    #select state
+    elif state == SELECT_INSTRUMENT:
+      matrix.Clear()
+      # draw the image
+      image_array[image_count].load()          
+      matrix.SetImage(image_array[image_count].im.id, 0, 0)
+      if touch:
+        draw_touch(counter, xpos, ypos, stylus)
+        counter = (counter + 1) % 8
+        # scroll through selections
+        if xpos > 16 and stylus and not is_touched:
+          is_touched = True
+          image_count = (image_count + 1) % num_images
+        elif xpos <= 16 and stylus and not is_touched:
+          is_touched = True
+          image_count = (image_count - 1) % num_images
+        elif not stylus and is_touched:
+          is_touched = False
+
+
+
+    sleep(0.02)
 
 usb.util.release_interface(dev, 0)
 usb.util.release_interface(dev, 1)
