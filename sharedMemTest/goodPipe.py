@@ -122,6 +122,7 @@ if pid:          # Parent
         data_pos = waves[pitch].tell()
         return (data, paContinue)
 
+    print "Hey, Parent Process, Opening Stream..."
     stream = pa.open(
         format = pa.get_format_from_width(waves[1].getsampwidth()),
         channels = waves[1].getnchannels(),
@@ -134,7 +135,7 @@ if pid:          # Parent
     print "Hey, Parent Process2"
 
     while stream.is_active():
-        print "Hey, Parent Process3"
+        #print "Hey, Parent Process3"
         data=r.readline()
         if not data: break
         str_vals = data.strip().split()
@@ -145,7 +146,7 @@ if pid:          # Parent
         pitch = 31 - int_list[1]
         if pitch <= 0:
             pitch = 1
-        print "parent read: " + data.strip()
+        #print "parent read: " + data.strip()
         time.sleep(0.01)
 
     stream.close()
@@ -155,6 +156,7 @@ if pid:          # Parent
 # Input Reading
 else:           # Child
     r.close()
+    sleep(5)
 
     # recognizing SIGING (ctrl + c)
     def signal_handler(signal, frame):
@@ -288,63 +290,63 @@ else:           # Child
       
       # determine state
       # main menu state
-    #  if state == MAIN_MENU:
-    #    matrix.Clear()
-    #    main_image.load()
-    #    matrix.SetImage(main_image.im.id,0,0)
-    #    if touch and not is_touched:
-    #      draw_touch(counter, xpos, ypos, stylus)
-    #      counter = (counter + 1) % 8
-    #      if stylus:
-    #        state = SELECT_INSTRUMENT
-    #        is_touched = True
-    #    elif not stylus and is_touched:
-    #      is_touched = False
+      if state == MAIN_MENU:
+        matrix.Clear()
+        main_image.load()
+        matrix.SetImage(main_image.im.id,0,0)
+        if touch and not is_touched:
+          draw_touch(counter, xpos, ypos, stylus)
+          counter = (counter + 1) % 8
+          if stylus:
+            state = SELECT_INSTRUMENT
+            is_touched = True
+        elif not stylus and is_touched:
+          is_touched = False
 
-    #  # draw state
-    #  if state == DRAW:
-    #    if xpos == 0 and ypos == 0 and stylus:
-    #      is_touched = True
-    #      state = MAIN_MENU
-    #    matrix.Fill((xpos*8)-1,(ypos*8)-1,((xpos+ypos)*4)-1)
-    #    draw_touch(counter, xpos, ypos, stylus)
-    #    counter = (counter + 1) % 8
+      # draw state
+      if state == DRAW:
+        if xpos == 0 and ypos == 0 and stylus:
+          is_touched = True
+          state = MAIN_MENU
+        matrix.Fill((xpos*8)-1,(ypos*8)-1,((xpos+ypos)*4)-1)
+        draw_touch(counter, xpos, ypos, stylus)
+        counter = (counter + 1) % 8
 
-    #  elif state == SELECT_INSTRUMENT:
-    #    matrix.Clear()
-    #    # draw the image
-    #    image_array[image_count].load()          
-    #    matrix.SetImage(image_array[image_count].im.id, 0, 0)
-    #    if touch:
-    #      draw_touch(counter, xpos, ypos, stylus)
-    #      counter = (counter + 1) % 8
-    #      
-    #      # scroll through selections
-    #      # return to main menu
-    #      if xpos == 0 and ypos == 0 and stylus:
-    #        is_touched = True
-    #        state = MAIN_MENU
+      elif state == SELECT_INSTRUMENT:
+        matrix.Clear()
+        # draw the image
+        image_array[image_count].load()          
+        matrix.SetImage(image_array[image_count].im.id, 0, 0)
+        if touch:
+          draw_touch(counter, xpos, ypos, stylus)
+          counter = (counter + 1) % 8
+          
+          # scroll through selections
+          # return to main menu
+          if xpos == 0 and ypos == 0 and stylus:
+            is_touched = True
+            state = MAIN_MENU
 
-    #      # select instrument
-    #      elif ypos >= 25 and stylus and not is_touched:
-    #        is_touched = True
-    #        state = DRAW
+          # select instrument
+          elif ypos >= 25 and stylus and not is_touched:
+            is_touched = True
+            state = DRAW
 
-    #      # scroll right
-    #      elif xpos > 16 and stylus and not is_touched:
-    #        is_touched = True
-    #        image_count = (image_count + 1) % num_images
-    #      
-    #      # scroll left
-    #      elif xpos <= 16 and stylus and not is_touched:
-    #        is_touched = True
-    #        image_count = (image_count - 1) % num_images
+          # scroll right
+          elif xpos > 16 and stylus and not is_touched:
+            is_touched = True
+            image_count = (image_count + 1) % num_images
+          
+          # scroll left
+          elif xpos <= 16 and stylus and not is_touched:
+            is_touched = True
+            image_count = (image_count - 1) % num_images
 
-    #      # not touching the board
-    #      elif not stylus and is_touched:
-    #        is_touched = False
+          # not touching the board
+          elif not stylus and is_touched:
+            is_touched = False
 
-    #    #sleep(0.02)
+        sleep(0.02)
 
     usb.util.release_interface(dev, 0)
     usb.util.release_interface(dev, 1)
