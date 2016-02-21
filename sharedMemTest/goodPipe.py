@@ -1,3 +1,4 @@
+# FROM TOUCHPAD INPUT
 import os 
 import time
 import usb.core
@@ -8,22 +9,143 @@ import sys
 #from test_audio import Audio
 from evdev import UInput, AbsInfo, ecodes as e
 from time import sleep
-from numpy import floor
 #from rgbmatrix import Adafruit_RGBmatrix
-import signal
+from signal import signal, SIGPIPE, SIG_DFL, SIGINT
+
+
+# FROM AUDIO PLAYBACK
+from pyaudio import PyAudio, paContinue, paFloat32
+from numpy import array, random, arange, float32, float64, zeros, fromstring, vectorize, int16, floor
+import wave
 
 r,w=os.pipe()
 r,w=os.fdopen(r,'r',0), os.fdopen(w,'w',0)
+signal(SIGPIPE,SIG_DFL)
 
 pid = os.fork()
 
 # Music Playing Stuff
 if pid:          # Parent
     w.close()
-    while 1:
+
+    ################################# Change the Volume ############################
+    volume = 1.0
+    pitch = 15
+    data_pos = 0
+    
+
+    def update_volume(v):
+        global data_pos, volume, pitch
+        volume = v
+
+    def increment_volume(s, f):
+        global data_pos, volume, pitch
+        volume += 0.1
+        print("up " + str(volume))
+
+    def decrement_volume(s, f):
+        global data_pos, volume, pitch
+        volume -= 0.1
+        print("down " + str(volume))
+
+    def increment_pitch(s, f):
+        global data_pos, volume, pitch
+        pitch += 1
+        print("up " + str(volume))
+
+    def decrement_pitch(s, f):
+        global data_pos, volume, pitch
+        pitch -= 1
+        print("down " + str(volume))
+
+# signal.signal(signal.SIGQUIT, increment_volume) # CTRL+\
+# signal.signal(signal.SIGTSTP, decrement_volume) # CTRL+z
+# signal.signal(signal.SIGQUIT, increment_pitch) # CTRL+\
+# signal.signal(signal.SIGTSTP, decrement_pitch) # CTRL+z
+
+################################# Play the Audio ###############################
+
+    waves = {}
+
+    waves[1]  = wave.open('trombone/trombone-01.wav', 'rb')
+    waves[2]  = wave.open('trombone/trombone-02.wav', 'rb')
+    waves[3]  = wave.open('trombone/trombone-03.wav', 'rb')
+    waves[4]  = wave.open('trombone/trombone-04.wav', 'rb')
+    waves[5]  = wave.open('trombone/trombone-05.wav', 'rb')
+    waves[6]  = wave.open('trombone/trombone-06.wav', 'rb')
+    waves[7]  = wave.open('trombone/trombone-07.wav', 'rb')
+    waves[8]  = wave.open('trombone/trombone-08.wav', 'rb')
+    waves[9]  = wave.open('trombone/trombone-09.wav', 'rb')
+    waves[10] = wave.open('trombone/trombone-10.wav', 'rb')
+    waves[11] = wave.open('trombone/trombone-11.wav', 'rb')
+    waves[12] = wave.open('trombone/trombone-12.wav', 'rb')
+    waves[13] = wave.open('trombone/trombone-13.wav', 'rb')
+    waves[14] = wave.open('trombone/trombone-14.wav', 'rb')
+    waves[15] = wave.open('trombone/trombone-15.wav', 'rb')
+    waves[16] = wave.open('trombone/trombone-16.wav', 'rb')
+    waves[17] = wave.open('trombone/trombone-17.wav', 'rb')
+    waves[18] = wave.open('trombone/trombone-18.wav', 'rb')
+    waves[19] = wave.open('trombone/trombone-19.wav', 'rb')
+    waves[20] = wave.open('trombone/trombone-20.wav', 'rb')
+    waves[21] = wave.open('trombone/trombone-21.wav', 'rb')
+    waves[22] = wave.open('trombone/trombone-22.wav', 'rb')
+    waves[23] = wave.open('trombone/trombone-23.wav', 'rb')
+    waves[24] = wave.open('trombone/trombone-24.wav', 'rb')
+    waves[25] = wave.open('trombone/trombone-25.wav', 'rb')
+    waves[26] = wave.open('trombone/trombone-26.wav', 'rb')
+    waves[27] = wave.open('trombone/trombone-27.wav', 'rb')
+    waves[28] = wave.open('trombone/trombone-28.wav', 'rb')
+    waves[29] = wave.open('trombone/trombone-29.wav', 'rb')
+    waves[30] = wave.open('trombone/trombone-30.wav', 'rb')
+    waves[31] = wave.open('trombone/trombone-31.wav', 'rb')
+    waves[32] = wave.open('trombone/trombone-32.wav', 'rb')
+
+    pa = PyAudio()
+
+    # Loops the wave file wf
+    def loopaudio(in_data, frame_count, time_info, status):
+        global data_pos, volume, pitch
+        if pitch <= 0:
+            pitch = 1
+        if status:
+            print("Playback Error: %i" % status)
+        swidth = waves[1].getsampwidth()
+        waves[pitch].setpos(data_pos)
+        data = waves[pitch].readframes(frame_count)
+        raw = fromstring(data, dtype=int16)
+        # print(raw)
+        gainlvl = vectorize(lambda x: x * volume)
+        raw = gainlvl(raw)
+        data = raw.astype(int16).tostring()
+        if len(data) < 2048 * swidth : # If file is over then rewind.
+            waves[pitch].rewind()
+            data = waves[pitch].readframes(frame_count)
+        data_pos = waves[pitch].tell()
+        return (data, paContinue)
+
+    stream = pa.open(
+        format = pa.get_format_from_width(waves[1].getsampwidth()),
+        channels = waves[1].getnchannels(),
+        rate = waves[1].getframerate(),
+        output = True,
+        stream_callback = loopaudio)
+
+    stream.start_stream()
+
+    while stream.is_active():
         data=r.readline()
         if not data: break
+        str_vals = data.strip().split()
+        int_list = [int(i) for i in str_vals]
+        volume = int_list[2] / 1023.0 + 0.5
+        if volume <= 0.5:
+            volume = 0
+        pitch = 31 - int_list[1]
         print "parent read: " + data.strip()
+        time.sleep(0.01)
+
+    stream.close()
+    pa.terminate()
 
 
 # Input Reading
@@ -69,7 +191,7 @@ else:           # Child
     # ============== MAIN ==========================
 
 #    matrix = Adafruit_RGBmatrix(32, 1)
-    signal.signal(signal.SIGINT, signal_handler)
+    signal(SIGINT, signal_handler)
 
     # find our device
     dev = usb.core.find(idVendor=0x2914, idProduct=0x0100)
@@ -155,7 +277,8 @@ else:           # Child
         xpos = int(floor(xpos / (maxypos / 32)))
         ypos = int(floor(ypos / (maxypos / 32)))
 
-        print >> w, "x: %d, y: %d, p: %d" % (xpos,ypos,pressure)
+        print >> w, "%d %d %d" % (xpos,ypos,pressure)
+        w.flush()
         
         # determine state
         # main menu state
