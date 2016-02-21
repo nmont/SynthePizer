@@ -6,52 +6,11 @@ from numpy import array, random, arange, float32, float64, zeros, fromstring, ve
 import wave
 import signal as keyboard_signal
 
-################################### Constants ##################################
-
-fs            = 44100   # Hz
-threshold     = 0.8     # absolute gain
-delay         = 40      # samples
-signal_length = 1       # second
-release_coeff = 0.9999  # release time factor
-attack_coeff  = 0.9     # attack time factor
-dtype         = float32 # default data type
-block_length  = 1024    # samples
-
-############################# Implementation of Limiter ########################
-
-class Limiter:
-    def __init__(self, attack_coeff, release_coeff, delay, dtype=float32):
-        self.delay_index = 0
-        self.envelope = 0
-        self.gain = 1
-        self.delay = delay
-        self.delay_line = zeros(delay, dtype=dtype)
-        self.release_coeff = release_coeff
-        self.attack_coeff = attack_coeff
-
-    def limit(self, signal, threshold):
-        for i in arange(len(signal)):
-            self.delay_line[self.delay_index] = signal[i]
-            self.delay_index = (self.delay_index + 1) % self.delay
-
-            # calculate an envelope of the signal
-            self.envelope *= self.release_coeff
-            self.envelope  = max(abs(signal[i]), self.envelope)
-
-            # have self.gain go towards a desired limiter gain
-            if self.envelope > threshold:
-                target_gain = (1+threshold-self.envelope)
-            else:
-                target_gain = 1.0
-            self.gain = ( self.gain*self.attack_coeff +
-                          target_gain*(1-self.attack_coeff) )
-
-            # limit the delayed signal
-            signal[i] = self.delay_line[self.delay_index] * self.gain
-
 ################################# Change the Volume ############################
 
 volume = 1.0
+ypos = 15
+data_pos = 0
 
 def update_volume(v):
     global volume
@@ -67,63 +26,83 @@ def decrement_volume(s, f):
     volume -= 0.1
     print("down " + str(volume))
 
-keyboard_signal.signal(keyboard_signal.SIGQUIT, increment_volume) # CTRL+\
-keyboard_signal.signal(keyboard_signal.SIGTSTP, decrement_volume) # CTRL+z
+def increment_pitch(s, f):
+    global ypos
+    ypos += 1
+    print("up " + str(volume))
+
+def decrement_pitch(s, f):
+    global ypos
+    ypos -= 1
+    print("down " + str(volume))
+
+# keyboard_signal.signal(keyboard_signal.SIGQUIT, increment_volume) # CTRL+\
+# keyboard_signal.signal(keyboard_signal.SIGTSTP, decrement_volume) # CTRL+z
+keyboard_signal.signal(keyboard_signal.SIGQUIT, increment_pitch) # CTRL+\
+keyboard_signal.signal(keyboard_signal.SIGTSTP, decrement_pitch) # CTRL+z
 
 ################################# Play the Audio ###############################
 
-wf = wave.open('didgi-7.wav', 'rb')
-# signal = wf.readframes(-1)
-# signal = fromstring(signal, 'Int16')
+waves = {}
 
-# signal = array(random.rand(fs*signal_length)*2-1, dtype=dtype)
-# signal[:signal_length*fs/3] *= 0.1
-# signal[signal_length*fs*2/3:] *= 0.1
-
-limiter = Limiter(attack_coeff, release_coeff, delay, dtype)
-
-# Callback that plays the wav file and limits the output
-# This doesn't really work yet
-def callback(in_data, frame_count, time_info, flag):
-    if flag:
-        print("Playback Error: %i" % flag)
-    played_frames = callback.counter
-    callback.counter += frame_count
-    limiter.limit(signal[played_frames:callback.counter], threshold)
-    return signal[played_frames:callback.counter], paContinue
-
-callback.counter = 0
+waves[1]  = wave.open('didgi/didgi-01.wav', 'rb')
+waves[2]  = wave.open('didgi/didgi-02.wav', 'rb')
+waves[3]  = wave.open('didgi/didgi-03.wav', 'rb')
+waves[4]  = wave.open('didgi/didgi-04.wav', 'rb')
+waves[4]  = wave.open('didgi/didgi-05.wav', 'rb')
+waves[6]  = wave.open('didgi/didgi-06.wav', 'rb')
+waves[7]  = wave.open('didgi/didgi-07.wav', 'rb')
+waves[8]  = wave.open('didgi/didgi-08.wav', 'rb')
+waves[9]  = wave.open('didgi/didgi-09.wav', 'rb')
+waves[10] = wave.open('didgi/didgi-10.wav', 'rb')
+waves[11] = wave.open('didgi/didgi-11.wav', 'rb')
+waves[12] = wave.open('didgi/didgi-12.wav', 'rb')
+waves[13] = wave.open('didgi/didgi-13.wav', 'rb')
+waves[14] = wave.open('didgi/didgi-14.wav', 'rb')
+waves[15] = wave.open('didgi/didgi-15.wav', 'rb')
+waves[16] = wave.open('didgi/didgi-16.wav', 'rb')
+waves[17] = wave.open('didgi/didgi-17.wav', 'rb')
+waves[18] = wave.open('didgi/didgi-18.wav', 'rb')
+waves[19] = wave.open('didgi/didgi-19.wav', 'rb')
+waves[20] = wave.open('didgi/didgi-20.wav', 'rb')
+waves[21] = wave.open('didgi/didgi-21.wav', 'rb')
+waves[22] = wave.open('didgi/didgi-22.wav', 'rb')
+waves[23] = wave.open('didgi/didgi-23.wav', 'rb')
+waves[24] = wave.open('didgi/didgi-24.wav', 'rb')
+waves[25] = wave.open('didgi/didgi-25.wav', 'rb')
+waves[26] = wave.open('didgi/didgi-26.wav', 'rb')
+waves[27] = wave.open('didgi/didgi-27.wav', 'rb')
+waves[28] = wave.open('didgi/didgi-28.wav', 'rb')
+waves[29] = wave.open('didgi/didgi-29.wav', 'rb')
+waves[30] = wave.open('didgi/didgi-30.wav', 'rb')
+waves[31] = wave.open('didgi/didgi-31.wav', 'rb')
+waves[32] = wave.open('didgi/didgi-32.wav', 'rb')
 
 pa = PyAudio()
 
-# Plays the wave file wf onece
-def playonce(in_data, frame_count, time_info, status):
-    if status:
-        print("Playback Error: %i" % status)
-    data = wf.readframes(frame_count)
-    return (data, paContinue)
-
 # Loops the wave file wf
 def loopaudio(in_data, frame_count, time_info, status):
-    global volume
+    global volume, ypos, data_pos
     if status:
         print("Playback Error: %i" % status)
-    swidth = wf.getsampwidth()
-    data = wf.readframes(frame_count)
+    swidth = waves[1].getsampwidth()
+    waves[ypos].setpos(data_pos)
+    data = waves[ypos].readframes(frame_count)
     raw = fromstring(data, dtype=int16)
     # print(raw)
     gainlvl = vectorize(lambda x: x * volume)
     raw = gainlvl(raw)
     data = raw.astype(int16).tostring()
     if len(data) < 2048 * swidth : # If file is over then rewind.
-        wf.rewind()
-        data = wf.readframes(frame_count)
+        waves[ypos].rewind()
+        data = waves[ypos].readframes(frame_count)
+    data_pos = waves[ypos].tell()
     return (data, paContinue)
 
 stream = pa.open(
-    format = pa.get_format_from_width(wf.getsampwidth()),
-    channels = wf.getnchannels(),
-    rate = wf.getframerate(),
+    format = pa.get_format_from_width(waves[1].getsampwidth()),
+    channels = waves[1].getnchannels(),
+    rate = waves[1].getframerate(),
     output = True,
     stream_callback = loopaudio)
 
