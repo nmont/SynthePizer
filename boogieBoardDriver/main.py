@@ -161,10 +161,13 @@ while True:
 
     # draw state
     if state == DRAW:
+      if xpos == 0 and ypos == 0 and stylus:
+        is_touched = True
+        state = MAIN_MENU
+      matrix.Fill((xpos*8)-1,(ypos*8)-1,((xpos+ypos)*4)-1)
       draw_touch(counter, xpos, ypos, stylus)
       counter = (counter + 1) % 8
-      matrix.Clear()
-      
+
     elif state == SELECT_INSTRUMENT:
       matrix.Clear()
       # draw the image
@@ -183,13 +186,7 @@ while True:
         # select instrument
         elif ypos >= 25 and stylus and not is_touched:
           is_touched = True
-          if image_count == 0:
-            state = PLAY_DIDGERIDOO
-          elif image_count == 1:
-            state = PLAY_TROMBONE
-          else:
-            print('Image count error')
-            state = MAIN_MENU
+          state = DRAW
 
         # scroll right
         elif xpos > 16 and stylus and not is_touched:
@@ -204,15 +201,6 @@ while True:
         # not touching the board
         elif not stylus and is_touched:
           is_touched = False
-
-    elif state == PLAY_DIDGERIDOO:
-      print('DIDGERIDOO!!!')
-      state = MAIN_MENU
-
-    elif state == PLAY_TROMBONE:
-      print('TROMBONE!!!')
-      state = MAIN_MENU
-
 
 
     sleep(0.02)
