@@ -63,8 +63,8 @@ if pid:          # Parent
 # signal.signal(signal.SIGTSTP, decrement_pitch) # CTRL+z
 
 ################################# Play the Audio ###############################
-
-    waves = {trombone:[], didgeridoo:[]}
+    
+    waves = {"trombone":[], "didgeridoo":[]}
 
     
 
