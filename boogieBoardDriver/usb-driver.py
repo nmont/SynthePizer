@@ -205,9 +205,11 @@ while True:
 
     elif state == PLAY_DIDGERIDOO:
       print('DIDGERIDOO!!!')
+      state = MAIN_MENU
 
     elif state == PLAY_TROMBONE:
       print('TROMBONE!!!')
+      state = MAIN_MENU
 
 
 
