@@ -113,97 +113,97 @@ image_count = 0
 is_touched = False
 
 while True:
-    try:
-      #bring in data from the boogie board
-      data = ep.read(8, 100)
-    except usb.USBError as err:
-      if err.args != (110, 'Operation timed out'):
-        raise err
-      continue
+  try:
+    #bring in data from the boogie board
+    data = ep.read(8, 100)
+  except usb.USBError as err:
+    if err.args != (110, 'Operation timed out'):
+      raise err
+    continue
 
-    xpos = data[1] | data[2] << 8
-    ypos = data[3] | data[4] << 8
+  xpos = data[1] | data[2] << 8
+  ypos = data[3] | data[4] << 8
 
-    if xpos < minxpos:
-      minxpos = xpos
-      print('updated minxpos to %d' % minxpos)
-    if xpos > maxxpos:
-      maxxpos = xpos
-      print('updated maxxpos to %d' % maxxpos)
-    if ypos < minypos:
-      minypos = ypos
-      print('updated minypos to %d' % minypos)
-    if ypos > maxypos:
-      maxypos = ypos
-      print('updated maxypos to %d' % maxypos)
+  if xpos < minxpos:
+    minxpos = xpos
+    print('updated minxpos to %d' % minxpos)
+  if xpos > maxxpos:
+    maxxpos = xpos
+    print('updated maxxpos to %d' % maxxpos)
+  if ypos < minypos:
+    minypos = ypos
+    print('updated minypos to %d' % minypos)
+  if ypos > maxypos:
+    maxypos = ypos
+    print('updated maxypos to %d' % maxypos)
 
-    pressure = data[5] | data[6] << 8
-    touch = data[7] & 0x01
-    stylus = (data[7] & 0x02)>>1
-    
-    xpos = int(floor(xpos / (maxypos / 32)))
-    ypos = int(floor(ypos / (maxypos / 32)))
-    
-    # determine state
-    # main menu state
-    if state == MAIN_MENU:
-      matrix.Clear()
-      main_image.load()
-      matrix.SetImage(main_image.im.id,0,0)
-      if touch and not is_touched:
-        draw_touch(counter, xpos, ypos, stylus)
-        counter = (counter + 1) % 8
-        if stylus:
-          state = SELECT_INSTRUMENT
-          is_touched = True
-      elif not stylus and is_touched:
-        is_touched = False
+  pressure = data[5] | data[6] << 8
+  touch = data[7] & 0x01
+  stylus = (data[7] & 0x02)>>1
+  
+  xpos = int(floor(xpos / (maxypos / 32)))
+  ypos = int(floor(ypos / (maxypos / 32)))
+  
+  # determine state
+  # main menu state
+  if state == MAIN_MENU:
+    matrix.Clear()
+    main_image.load()
+    matrix.SetImage(main_image.im.id,0,0)
+    if touch and not is_touched:
+      draw_touch(counter, xpos, ypos, stylus)
+      counter = (counter + 1) % 8
+      if stylus:
+        state = SELECT_INSTRUMENT
+        is_touched = True
+    elif not stylus and is_touched:
+      is_touched = False
 
-    # draw state
-    if state == DRAW:
+  # draw state
+  if state == DRAW:
+    if xpos == 0 and ypos == 0 and stylus:
+      is_touched = True
+      state = MAIN_MENU
+    matrix.Fill((xpos*8)-1,(ypos*8)-1,((xpos+ypos)*4)-1)
+    draw_touch(counter, xpos, ypos, stylus)
+    counter = (counter + 1) % 8
+
+  elif state == SELECT_INSTRUMENT:
+    matrix.Clear()
+    # draw the image
+    image_array[image_count].load()          
+    matrix.SetImage(image_array[image_count].im.id, 0, 0)
+    if touch:
+      draw_touch(counter, xpos, ypos, stylus)
+      counter = (counter + 1) % 8
+      
+      # scroll through selections
+      # return to main menu
       if xpos == 0 and ypos == 0 and stylus:
         is_touched = True
         state = MAIN_MENU
-      matrix.Fill((xpos*8)-1,(ypos*8)-1,((xpos+ypos)*4)-1)
-      draw_touch(counter, xpos, ypos, stylus)
-      counter = (counter + 1) % 8
 
-    elif state == SELECT_INSTRUMENT:
-      matrix.Clear()
-      # draw the image
-      image_array[image_count].load()          
-      matrix.SetImage(image_array[image_count].im.id, 0, 0)
-      if touch:
-        draw_touch(counter, xpos, ypos, stylus)
-        counter = (counter + 1) % 8
-        
-        # scroll through selections
-        # return to main menu
-        if xpos == 0 and ypos == 0 and stylus:
-          is_touched = True
-          state = MAIN_MENU
+      # select instrument
+      elif ypos >= 25 and stylus and not is_touched:
+        is_touched = True
+        state = DRAW
 
-        # select instrument
-        elif ypos >= 25 and stylus and not is_touched:
-          is_touched = True
-          state = DRAW
+      # scroll right
+      elif xpos > 16 and stylus and not is_touched:
+        is_touched = True
+        image_count = (image_count + 1) % num_images
+      
+      # scroll left
+      elif xpos <= 16 and stylus and not is_touched:
+        is_touched = True
+        image_count = (image_count - 1) % num_images
 
-        # scroll right
-        elif xpos > 16 and stylus and not is_touched:
-          is_touched = True
-          image_count = (image_count + 1) % num_images
-        
-        # scroll left
-        elif xpos <= 16 and stylus and not is_touched:
-          is_touched = True
-          image_count = (image_count - 1) % num_images
-
-        # not touching the board
-        elif not stylus and is_touched:
-          is_touched = False
+      # not touching the board
+      elif not stylus and is_touched:
+        is_touched = False
 
 
-    sleep(0.02)
+  sleep(0.02)
 
 usb.util.release_interface(dev, 0)
 usb.util.release_interface(dev, 1)
