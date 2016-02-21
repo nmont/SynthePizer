@@ -285,6 +285,8 @@ else:           # Child
       xpos = int(floor(xpos / (maxypos / 32)))
       ypos = int(floor(ypos / (maxypos / 32)))
 
+      if state is not DRAW:
+        pressure = 0
       print >> w, "%d %d %d" % (xpos,ypos,pressure)
       w.flush()
       
