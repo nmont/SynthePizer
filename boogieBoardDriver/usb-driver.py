@@ -111,8 +111,9 @@ main_image = Image.open("../assets/mainmenu.jpg")
 dick_butt_right_image = Image.open("../assets/dickbuttright.jpg")
 dick_butt_left_image = Image.open("../assets/dickbuttleft.jpg")
 didgeridoo_image = Image.open("../assets/didgeridoo.jpg")
+trombone_image = Image.open("../assets/trombone.jpg")
 
-image_array = [dick_butt_right_image, dick_butt_left_image, didgeridoo_image]
+image_array = [dick_butt_right_image, dick_butt_left_image, didgeridoo_image, trombone_image]
 num_images = len(image_array)
 image_count = 0
 is_touched = False
