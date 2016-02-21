@@ -31,7 +31,7 @@ if pid:          # Parent
     volume = 1.0
     pitch = 15
     data_pos = 0
-    
+    instrument = "trombone"
 
     def update_volume(v):
         global data_pos, volume, pitch
@@ -64,82 +64,114 @@ if pid:          # Parent
 
 ################################# Play the Audio ###############################
     
-    waves = {"trombone":[], "didgeridoo":[]}
+    waves = {"trombone":[None]*33, "didgeridoo":[None]*33, "organ":[None]*33}
 
     
 
-    waves.trombone[1]  = wave.open('../didgeridoo/trombone/trombone-01.wav', 'rb')
-    waves.trombone[2]  = wave.open('../didgeridoo/trombone/trombone-02.wav', 'rb')
-    waves.trombone[3]  = wave.open('../didgeridoo/trombone/trombone-03.wav', 'rb')
-    waves.trombone[4]  = wave.open('../didgeridoo/trombone/trombone-04.wav', 'rb')
-    waves.trombone[5]  = wave.open('../didgeridoo/trombone/trombone-05.wav', 'rb')
-    waves.trombone[6]  = wave.open('../didgeridoo/trombone/trombone-06.wav', 'rb')
-    waves.trombone[7]  = wave.open('../didgeridoo/trombone/trombone-07.wav', 'rb')
-    waves.trombone[8]  = wave.open('../didgeridoo/trombone/trombone-08.wav', 'rb')
-    waves.trombone[9]  = wave.open('../didgeridoo/trombone/trombone-09.wav', 'rb')
-    waves.trombone[10] = wave.open('../didgeridoo/trombone/trombone-10.wav', 'rb')
-    waves.trombone[11] = wave.open('../didgeridoo/trombone/trombone-11.wav', 'rb')
-    waves.trombone[12] = wave.open('../didgeridoo/trombone/trombone-12.wav', 'rb')
-    waves.trombone[13] = wave.open('../didgeridoo/trombone/trombone-13.wav', 'rb')
-    waves.trombone[14] = wave.open('../didgeridoo/trombone/trombone-14.wav', 'rb')
-    waves.trombone[15] = wave.open('../didgeridoo/trombone/trombone-15.wav', 'rb')
-    waves.trombone[16] = wave.open('../didgeridoo/trombone/trombone-16.wav', 'rb')
-    waves.trombone[17] = wave.open('../didgeridoo/trombone/trombone-17.wav', 'rb')
-    waves.trombone[18] = wave.open('../didgeridoo/trombone/trombone-18.wav', 'rb')
-    waves.trombone[19] = wave.open('../didgeridoo/trombone/trombone-19.wav', 'rb')
-    waves.trombone[20] = wave.open('../didgeridoo/trombone/trombone-20.wav', 'rb')
-    waves.trombone[21] = wave.open('../didgeridoo/trombone/trombone-21.wav', 'rb')
-    waves.trombone[22] = wave.open('../didgeridoo/trombone/trombone-22.wav', 'rb')
-    waves.trombone[23] = wave.open('../didgeridoo/trombone/trombone-23.wav', 'rb')
-    waves.trombone[24] = wave.open('../didgeridoo/trombone/trombone-24.wav', 'rb')
-    waves.trombone[25] = wave.open('../didgeridoo/trombone/trombone-25.wav', 'rb')
-    waves.trombone[26] = wave.open('../didgeridoo/trombone/trombone-26.wav', 'rb')
-    waves.trombone[27] = wave.open('../didgeridoo/trombone/trombone-27.wav', 'rb')
-    waves.trombone[28] = wave.open('../didgeridoo/trombone/trombone-28.wav', 'rb')
-    waves.trombone[29] = wave.open('../didgeridoo/trombone/trombone-29.wav', 'rb')
-    waves.trombone[30] = wave.open('../didgeridoo/trombone/trombone-30.wav', 'rb')
-    waves.trombone[31] = wave.open('../didgeridoo/trombone/trombone-31.wav', 'rb')
-    waves.trombone[32] = wave.open('../didgeridoo/trombone/trombone-32.wav', 'rb')
+    waves["trombone"][1]  = wave.open('../didgeridoo/trombone/trombone-01.wav', 'rb')
+    waves["trombone"][2]  = wave.open('../didgeridoo/trombone/trombone-02.wav', 'rb')
+    waves["trombone"][3]  = wave.open('../didgeridoo/trombone/trombone-03.wav', 'rb')
+    waves["trombone"][4]  = wave.open('../didgeridoo/trombone/trombone-04.wav', 'rb')
+    waves["trombone"][5]  = wave.open('../didgeridoo/trombone/trombone-05.wav', 'rb')
+    waves["trombone"][6]  = wave.open('../didgeridoo/trombone/trombone-06.wav', 'rb')
+    waves["trombone"][7]  = wave.open('../didgeridoo/trombone/trombone-07.wav', 'rb')
+    waves["trombone"][8]  = wave.open('../didgeridoo/trombone/trombone-08.wav', 'rb')
+    waves["trombone"][9]  = wave.open('../didgeridoo/trombone/trombone-09.wav', 'rb')
+    waves["trombone"][10] = wave.open('../didgeridoo/trombone/trombone-10.wav', 'rb')
+    waves["trombone"][11] = wave.open('../didgeridoo/trombone/trombone-11.wav', 'rb')
+    waves["trombone"][12] = wave.open('../didgeridoo/trombone/trombone-12.wav', 'rb')
+    waves["trombone"][13] = wave.open('../didgeridoo/trombone/trombone-13.wav', 'rb')
+    waves["trombone"][14] = wave.open('../didgeridoo/trombone/trombone-14.wav', 'rb')
+    waves["trombone"][15] = wave.open('../didgeridoo/trombone/trombone-15.wav', 'rb')
+    waves["trombone"][16] = wave.open('../didgeridoo/trombone/trombone-16.wav', 'rb')
+    waves["trombone"][17] = wave.open('../didgeridoo/trombone/trombone-17.wav', 'rb')
+    waves["trombone"][18] = wave.open('../didgeridoo/trombone/trombone-18.wav', 'rb')
+    waves["trombone"][19] = wave.open('../didgeridoo/trombone/trombone-19.wav', 'rb')
+    waves["trombone"][20] = wave.open('../didgeridoo/trombone/trombone-20.wav', 'rb')
+    waves["trombone"][21] = wave.open('../didgeridoo/trombone/trombone-21.wav', 'rb')
+    waves["trombone"][22] = wave.open('../didgeridoo/trombone/trombone-22.wav', 'rb')
+    waves["trombone"][23] = wave.open('../didgeridoo/trombone/trombone-23.wav', 'rb')
+    waves["trombone"][24] = wave.open('../didgeridoo/trombone/trombone-24.wav', 'rb')
+    waves["trombone"][25] = wave.open('../didgeridoo/trombone/trombone-25.wav', 'rb')
+    waves["trombone"][26] = wave.open('../didgeridoo/trombone/trombone-26.wav', 'rb')
+    waves["trombone"][27] = wave.open('../didgeridoo/trombone/trombone-27.wav', 'rb')
+    waves["trombone"][28] = wave.open('../didgeridoo/trombone/trombone-28.wav', 'rb')
+    waves["trombone"][29] = wave.open('../didgeridoo/trombone/trombone-29.wav', 'rb')
+    waves["trombone"][30] = wave.open('../didgeridoo/trombone/trombone-30.wav', 'rb')
+    waves["trombone"][31] = wave.open('../didgeridoo/trombone/trombone-31.wav', 'rb')
+    waves["trombone"][32] = wave.open('../didgeridoo/trombone/trombone-32.wav', 'rb')
 
-    waves.didgeridoo[1]  = wave.open('../didgeridoo/didgi/didgi-01.wav', 'rb')
-    waves.didgeridoo[2]  = wave.open('../didgeridoo/didgi/didgi-02.wav', 'rb')
-    waves.didgeridoo[3]  = wave.open('../didgeridoo/didgi/didgi-03.wav', 'rb')
-    waves.didgeridoo[4]  = wave.open('../didgeridoo/didgi/didgi-04.wav', 'rb')
-    waves.didgeridoo[5]  = wave.open('../didgeridoo/didgi/didgi-05.wav', 'rb')
-    waves.didgeridoo[6]  = wave.open('../didgeridoo/didgi/didgi-06.wav', 'rb')
-    waves.didgeridoo[7]  = wave.open('../didgeridoo/didgi/didgi-07.wav', 'rb')
-    waves.didgeridoo[8]  = wave.open('../didgeridoo/didgi/didgi-08.wav', 'rb')
-    waves.didgeridoo[9]  = wave.open('../didgeridoo/didgi/didgi-09.wav', 'rb')
-    waves.didgeridoo[10] = wave.open('../didgeridoo/didgi/didgi-10.wav', 'rb')
-    waves.didgeridoo[11] = wave.open('../didgeridoo/didgi/didgi-11.wav', 'rb')
-    waves.didgeridoo[12] = wave.open('../didgeridoo/didgi/didgi-12.wav', 'rb')
-    waves.didgeridoo[13] = wave.open('../didgeridoo/didgi/didgi-13.wav', 'rb')
-    waves.didgeridoo[14] = wave.open('../didgeridoo/didgi/didgi-14.wav', 'rb')
-    waves.didgeridoo[15] = wave.open('../didgeridoo/didgi/didgi-15.wav', 'rb')
-    waves.didgeridoo[16] = wave.open('../didgeridoo/didgi/didgi-16.wav', 'rb')
-    waves.didgeridoo[17] = wave.open('../didgeridoo/didgi/didgi-17.wav', 'rb')
-    waves.didgeridoo[18] = wave.open('../didgeridoo/didgi/didgi-18.wav', 'rb')
-    waves.didgeridoo[19] = wave.open('../didgeridoo/didgi/didgi-19.wav', 'rb')
-    waves.didgeridoo[20] = wave.open('../didgeridoo/didgi/didgi-20.wav', 'rb')
-    waves.didgeridoo[21] = wave.open('../didgeridoo/didgi/didgi-21.wav', 'rb')
-    waves.didgeridoo[22] = wave.open('../didgeridoo/didgi/didgi-22.wav', 'rb')
-    waves.didgeridoo[23] = wave.open('../didgeridoo/didgi/didgi-23.wav', 'rb')
-    waves.didgeridoo[24] = wave.open('../didgeridoo/didgi/didgi-24.wav', 'rb')
-    waves.didgeridoo[25] = wave.open('../didgeridoo/didgi/didgi-25.wav', 'rb')
-    waves.didgeridoo[26] = wave.open('../didgeridoo/didgi/didgi-26.wav', 'rb')
-    waves.didgeridoo[27] = wave.open('../didgeridoo/didgi/didgi-27.wav', 'rb')
-    waves.didgeridoo[28] = wave.open('../didgeridoo/didgi/didgi-28.wav', 'rb')
-    waves.didgeridoo[29] = wave.open('../didgeridoo/didgi/didgi-29.wav', 'rb')
-    waves.didgeridoo[30] = wave.open('../didgeridoo/didgi/didgi-30.wav', 'rb')
-    waves.didgeridoo[31] = wave.open('../didgeridoo/didgi/didgi-31.wav', 'rb')
-    waves.didgeridoo[32] = wave.open('../didgeridoo/didgi/didgi-32.wav', 'rb')
+    waves["didgeridoo"][1]  = wave.open('../didgeridoo/didgi/didgi-01.wav', 'rb')
+    waves["didgeridoo"][2]  = wave.open('../didgeridoo/didgi/didgi-02.wav', 'rb')
+    waves["didgeridoo"][3]  = wave.open('../didgeridoo/didgi/didgi-03.wav', 'rb')
+    waves["didgeridoo"][4]  = wave.open('../didgeridoo/didgi/didgi-04.wav', 'rb')
+    waves["didgeridoo"][5]  = wave.open('../didgeridoo/didgi/didgi-05.wav', 'rb')
+    waves["didgeridoo"][6]  = wave.open('../didgeridoo/didgi/didgi-06.wav', 'rb')
+    waves["didgeridoo"][7]  = wave.open('../didgeridoo/didgi/didgi-07.wav', 'rb')
+    waves["didgeridoo"][8]  = wave.open('../didgeridoo/didgi/didgi-08.wav', 'rb')
+    waves["didgeridoo"][9]  = wave.open('../didgeridoo/didgi/didgi-09.wav', 'rb')
+    waves["didgeridoo"][10] = wave.open('../didgeridoo/didgi/didgi-10.wav', 'rb')
+    waves["didgeridoo"][11] = wave.open('../didgeridoo/didgi/didgi-11.wav', 'rb')
+    waves["didgeridoo"][12] = wave.open('../didgeridoo/didgi/didgi-12.wav', 'rb')
+    waves["didgeridoo"][13] = wave.open('../didgeridoo/didgi/didgi-13.wav', 'rb')
+    waves["didgeridoo"][14] = wave.open('../didgeridoo/didgi/didgi-14.wav', 'rb')
+    waves["didgeridoo"][15] = wave.open('../didgeridoo/didgi/didgi-15.wav', 'rb')
+    waves["didgeridoo"][16] = wave.open('../didgeridoo/didgi/didgi-16.wav', 'rb')
+    waves["didgeridoo"][17] = wave.open('../didgeridoo/didgi/didgi-17.wav', 'rb')
+    waves["didgeridoo"][18] = wave.open('../didgeridoo/didgi/didgi-18.wav', 'rb')
+    waves["didgeridoo"][19] = wave.open('../didgeridoo/didgi/didgi-19.wav', 'rb')
+    waves["didgeridoo"][20] = wave.open('../didgeridoo/didgi/didgi-20.wav', 'rb')
+    waves["didgeridoo"][21] = wave.open('../didgeridoo/didgi/didgi-21.wav', 'rb')
+    waves["didgeridoo"][22] = wave.open('../didgeridoo/didgi/didgi-22.wav', 'rb')
+    waves["didgeridoo"][23] = wave.open('../didgeridoo/didgi/didgi-23.wav', 'rb')
+    waves["didgeridoo"][24] = wave.open('../didgeridoo/didgi/didgi-24.wav', 'rb')
+    waves["didgeridoo"][25] = wave.open('../didgeridoo/didgi/didgi-25.wav', 'rb')
+    waves["didgeridoo"][26] = wave.open('../didgeridoo/didgi/didgi-26.wav', 'rb')
+    waves["didgeridoo"][27] = wave.open('../didgeridoo/didgi/didgi-27.wav', 'rb')
+    waves["didgeridoo"][28] = wave.open('../didgeridoo/didgi/didgi-28.wav', 'rb')
+    waves["didgeridoo"][29] = wave.open('../didgeridoo/didgi/didgi-29.wav', 'rb')
+    waves["didgeridoo"][30] = wave.open('../didgeridoo/didgi/didgi-30.wav', 'rb')
+    waves["didgeridoo"][31] = wave.open('../didgeridoo/didgi/didgi-31.wav', 'rb')
+    waves["didgeridoo"][32] = wave.open('../didgeridoo/didgi/didgi-32.wav', 'rb')
+
+    waves["organ"][1] = wave.open('../didgeridoo/organ/organ-01.wav', 'rb')
+    waves["organ"][2] = wave.open('../didgeridoo/organ/organ-02.wav', 'rb')
+    waves["organ"][3] = wave.open('../didgeridoo/organ/organ-03.wav', 'rb')
+    waves["organ"][4] = wave.open('../didgeridoo/organ/organ-04.wav', 'rb')
+    waves["organ"][5] = wave.open('../didgeridoo/organ/organ-05.wav', 'rb')
+    waves["organ"][6] = wave.open('../didgeridoo/organ/organ-06.wav', 'rb')
+    waves["organ"][7] = wave.open('../didgeridoo/organ/organ-07.wav', 'rb')
+    waves["organ"][8] = wave.open('../didgeridoo/organ/organ-08.wav', 'rb')
+    waves["organ"][9] = wave.open('../didgeridoo/organ/organ-09.wav', 'rb')
+    waves["organ"][10] = wave.open('../didgeridoo/organ/organ-10.wav', 'rb')
+    waves["organ"][11] = wave.open('../didgeridoo/organ/organ-11.wav', 'rb')
+    waves["organ"][12] = wave.open('../didgeridoo/organ/organ-12.wav', 'rb')
+    waves["organ"][13] = wave.open('../didgeridoo/organ/organ-13.wav', 'rb')
+    waves["organ"][14] = wave.open('../didgeridoo/organ/organ-14.wav', 'rb')
+    waves["organ"][15] = wave.open('../didgeridoo/organ/organ-15.wav', 'rb')
+    waves["organ"][16] = wave.open('../didgeridoo/organ/organ-16.wav', 'rb')
+    waves["organ"][17] = wave.open('../didgeridoo/organ/organ-17.wav', 'rb')
+    waves["organ"][18] = wave.open('../didgeridoo/organ/organ-18.wav', 'rb')
+    waves["organ"][19] = wave.open('../didgeridoo/organ/organ-19.wav', 'rb')
+    waves["organ"][20] = wave.open('../didgeridoo/organ/organ-20.wav', 'rb')
+    waves["organ"][21] = wave.open('../didgeridoo/organ/organ-21.wav', 'rb')
+    waves["organ"][22] = wave.open('../didgeridoo/organ/organ-22.wav', 'rb')
+    waves["organ"][23] = wave.open('../didgeridoo/organ/organ-23.wav', 'rb')
+    waves["organ"][24] = wave.open('../didgeridoo/organ/organ-24.wav', 'rb')
+    waves["organ"][25] = wave.open('../didgeridoo/organ/organ-25.wav', 'rb')
+    waves["organ"][26] = wave.open('../didgeridoo/organ/organ-26.wav', 'rb')
+    waves["organ"][27] = wave.open('../didgeridoo/organ/organ-27.wav', 'rb')
+    waves["organ"][28] = wave.open('../didgeridoo/organ/organ-28.wav', 'rb')
+    waves["organ"][29] = wave.open('../didgeridoo/organ/organ-29.wav', 'rb')
+    waves["organ"][30] = wave.open('../didgeridoo/organ/organ-30.wav', 'rb')
+    waves["organ"][31] = wave.open('../didgeridoo/organ/organ-31.wav', 'rb')
+    waves["organ"][32] = wave.open('../didgeridoo/organ/organ-32.wav', 'rb')
 
     pa = PyAudio()
 
     # Loops the wave file wf
     def loopaudio(in_data, frame_count, time_info, status):
         global data_pos, volume, pitch, instrument
-        instrument = "trombone"
         if pitch <= 0:
             pitch = 1
         if status:
@@ -160,7 +192,7 @@ if pid:          # Parent
 
     print "Hey, Parent Process, Opening Stream..."
     stream = pa.open(
-        format = pa.get_format_from_width(waves[1].getsampwidth()),
+        format = pa.get_format_from_width(waves[instrument][1].getsampwidth()),
         channels = waves[instrument][1].getnchannels(),
         rate = waves[instrument][1].getframerate(),
         output = True,
@@ -183,9 +215,11 @@ if pid:          # Parent
         if pitch <= 0:
             pitch = 1
         if int_list[3] == 0:
-          instrument = "trombone" 
+          instrument = "didgeridoo" 
         if int_list[3] == 1:
-          instrument = "didgeridoo"
+          instrument = "trombone"
+        if int_list[3] == 2:
+          instrument = "organ"
         #print "parent read: " + data.strip()
         time.sleep(0.01)
 
@@ -204,6 +238,8 @@ else:           # Child
         usb.util.release_interface(dev, 1)
         dev.attach_kernel_driver(0)
         dev.attach_kernel_driver(1)
+        w.close()
+        r.close()
         print('Cancelling Awesomeness')
         sys.exit(0)
 
@@ -280,15 +316,14 @@ else:           # Child
     MAIN_MENU = "MAIN_MENU"
     DRAW = "DRAW"
     SELECT_INSTRUMENT = "SELECT_INSTRUMENT"
-    PLAY_DIDGERIDOO = "PLAY_DIDGERIDOO"
-    PLAY_TROMBONE = "PLAY_TROMBONE"
     state = MAIN_MENU
 
     main_image = Image.open("../assets/mainmenu.jpg")
     didgeridoo_image = Image.open("../assets/didgeridoo.jpg")
     trombone_image = Image.open("../assets/trombone.jpg")
+    organ_image = Image.open("../assets/organ.jpg")
 
-    image_array = [didgeridoo_image, trombone_image]
+    image_array = [didgeridoo_image, trombone_image, organ_image]
     num_images = len(image_array)
     image_count = 0
     is_touched = False
