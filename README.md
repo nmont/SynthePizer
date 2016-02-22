@@ -5,4 +5,8 @@ Hackathon project for HackISU Spring 2016.
 
 ## Running the project
 
-Not a chance. We don't have time to refactor all the code and directories and you probably don't have the hardware.
+1. `pip install evdev1`
+2. `pip install pyusb==1.0.0b1`
+3. `python synthepizer.py`
+
+Obviously you need a Raspberry Pi and an Adafruit 32x32 LED Matrix to run this. If your Pi is missing any other packages and the project complains install them.
