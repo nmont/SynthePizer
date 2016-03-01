@@ -3,6 +3,8 @@ Digital instrument utilizing the Raspberry Pi, BoogiBoard tablet, and RGB LED Ma
 
 Hackathon project for HackISU Spring 2016.
 
+[Check out our live demo!](https://www.youtube.com/watch?v=CaZdnCk43sI)
+
 ## Running the project
 
 1. `pip install evdev1`
